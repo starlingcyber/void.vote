@@ -13,20 +13,23 @@ export const meta: MetaFunction = () => {
 type Proposal = {
   proposal_id: number;
   title: string;
-  description: string | null;
-  kind: any; // Change to 'any' to allow for potential object values
-  state: any; // Change to 'any' to allow for potential object values
-  start_block_height: number | null;
-  end_block_height: number | null;
+  description: string;
+  kind: any;
+  state: any;
+  start_block_height: number;
+  end_block_height: number;
+  payload: any;
+  proposal_deposit_amount: number;
+  withdrawn: boolean;
+  withdrawal_reason: string | null;
 };
 
 export const loader: LoaderFunction = async () => {
   try {
     const { rows } = await pool.query<Proposal>(`
-      SELECT proposal_id, title, description, kind, state, start_block_height, end_block_height
+      SELECT proposal_id, title, description, kind, state, start_block_height, end_block_height, payload, proposal_deposit_amount, withdrawn, withdrawal_reason
       FROM governance_proposals
       ORDER BY proposal_id DESC
-      LIMIT 10
     `);
     return json(rows);
   } catch (error) {
@@ -72,6 +75,17 @@ export default function Index() {
               <div>
                 <span className="font-semibold">End Block:</span> {renderValue(proposal.end_block_height)}
               </div>
+              <div>
+                <span className="font-semibold">Payload:</span> {renderValue(proposal.payload)}
+              </div>
+              <div>
+                <span className="font-semibold">Deposit Amount:</span> {renderValue(proposal.proposal_deposit_amount)}
+              </div>
+              {proposal.withdrawn && (
+                <div>
+                  <span className="font-semibold">Withdrawn:</span> {proposal.withdrawal_reason}
+                </div>
+              )}
             </li>
           ))}
         </ul>
