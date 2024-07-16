@@ -2,6 +2,7 @@ import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { pool } from "~/db.server";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -40,8 +41,8 @@ export const loader: LoaderFunction = async () => {
 
 export default function Index() {
   const proposals = useLoaderData<Proposal[]>();
+  const [selectedProposal, setSelectedProposal] = useState<number | null>(null);
 
-  // Helper function to render complex objects
   const renderValue = (value: any) => {
     if (typeof value === 'object' && value !== null) {
       return JSON.stringify(value);
@@ -50,46 +51,58 @@ export default function Index() {
   };
 
   return (
-    <div className="font-sans p-4">
-      <h1 className="text-3xl mb-4">Penumbra Governance Proposals</h1>
-      {proposals.length === 0 ? (
-        <p>No proposals found.</p>
-      ) : (
-        <ul className="space-y-4">
-          {proposals.map((proposal) => (
-            <li key={proposal.proposal_id} className="border p-4 rounded-lg">
-              <h2 className="text-xl font-semibold">{proposal.title}</h2>
-              <p className="text-gray-600 mt-2">{proposal.description || "No description provided"}</p>
-              <div className="mt-2">
-                <span className="font-semibold">ID:</span> {proposal.proposal_id}
-              </div>
-              <div>
-                <span className="font-semibold">Kind:</span> {renderValue(proposal.kind)}
-              </div>
-              <div>
-                <span className="font-semibold">State:</span> {renderValue(proposal.state)}
-              </div>
-              <div>
-                <span className="font-semibold">Start Block:</span> {renderValue(proposal.start_block_height)}
-              </div>
-              <div>
-                <span className="font-semibold">End Block:</span> {renderValue(proposal.end_block_height)}
-              </div>
-              <div>
-                <span className="font-semibold">Payload:</span> {renderValue(proposal.payload)}
-              </div>
-              <div>
-                <span className="font-semibold">Deposit Amount:</span> {renderValue(proposal.proposal_deposit_amount)}
-              </div>
-              {proposal.withdrawn && (
-                <div>
-                  <span className="font-semibold">Withdrawn:</span> {proposal.withdrawal_reason}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-500">
+          Penumbra Governance Proposals
+        </h1>
+        {proposals.length === 0 ? (
+          <p className="text-xl text-gray-400">No proposals found.</p>
+        ) : (
+          <ul className="space-y-6">
+            {proposals.map((proposal) => (
+              <li
+                key={proposal.proposal_id}
+                className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                onClick={() => setSelectedProposal(selectedProposal === proposal.proposal_id ? null : proposal.proposal_id)}
+              >
+                <div className="p-6 cursor-pointer">
+                  <h2 className="text-2xl"><span className="font-bold mb-2 text-orange-400">Proposal #{proposal.proposal_id}:</span> <span className="font-semibold mb-2 text-teal-400">{proposal.title}</span></h2>
+                  <p className="text-lightgrey-400 mb-4">{proposal.description || "No description provided"}</p>
+                  <div className="flex justify-between text-sm">
+                    {/* <span className="text-orange-400">ID: {proposal.proposal_id}</span> */}
+                    <span className="text-teal-400">Kind: {renderValue(proposal.kind)}</span>
+                  </div>
                 </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+                {selectedProposal === proposal.proposal_id && (
+                  <div className="bg-gray-700 p-6 transition-all duration-300 ease-in-out">
+                    <div className="mb-2">
+                      <span className="font-semibold text-orange-400">State:</span> {renderValue(proposal.state)}
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-orange-400">Start Block:</span> {renderValue(proposal.start_block_height)}
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-orange-400">End Block:</span> {renderValue(proposal.end_block_height)}
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-orange-400">Payload:</span> {renderValue(proposal.payload)}
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-orange-400">Deposit Amount:</span> {renderValue(proposal.proposal_deposit_amount)}
+                    </div>
+                    {proposal.withdrawn && (
+                      <div className="mt-2 p-2 bg-red-900 rounded">
+                        <span className="font-semibold text-red-400">Withdrawn:</span> {proposal.withdrawal_reason}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
