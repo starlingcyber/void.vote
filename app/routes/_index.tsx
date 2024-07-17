@@ -22,23 +22,26 @@ import { toPlainMessage } from "@bufbuild/protobuf";
 
 import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
-import { assertProvider, assertProviderConnected } from "@penumbra-zone/client/assert";
+import {
+  assertProvider,
+  assertProviderConnected,
+} from "@penumbra-zone/client/assert";
 import AppParametersView from "~/components/AppParametersView";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import PenumbraClientProvider from "~/components/PenumbraClientProvider";
+import { usePenumbraConnected } from "~/hooks/usePenumbraConnected";
+import { usePenumbraRequestCallback } from "~/hooks/usePenumbraRequestCallback";
 
 const PRAX_ORIGIN = "chrome-extension://lkpmkhpnhknhmibgnmmhdhgdilepfghe";
 
+const queryClient = new QueryClient();
 export const meta: MetaFunction = () => {
   return [
     { title: "Void Vote" },
     { name: "description", content: "Penumbra Governance Proposals" },
   ];
 };
-
-type ServerLoaderData = { proposals: Proposal[] };
-type ClientLoaderData = { appParameters: AppParametersResponse } | null;
-type LoaderData = ServerLoaderData & Partial<ClientLoaderData>;
 
 const getProposals = async () => {
   const { rows } = await pool.query<Proposal>(`
@@ -49,15 +52,6 @@ const getProposals = async () => {
   return rows;
 };
 
-const getAppParameters = async () => {
-  const viewClient = createPenumbraClientSync(ViewService, PRAX_ORIGIN);
-  return await viewClient.appParameters({})
-};
-
-type ServerLoaderType = Awaited<ReturnType<typeof loader>>;
-//type ClientLoaderType = Awaited<ReturnType<typeof clientLoader>>;
-type LoaderType = ServerLoaderType //& Partial<ClientLoaderType>;
-
 export async function loader({
   request,
   params,
@@ -67,44 +61,57 @@ export async function loader({
   return json({ proposals: await getProposals() });
 }
 
-const queryClient = new QueryClient();
-
 export default function Index() {
-  const loaderData: unknown = useLoaderData();
-  console.log("useLoaderData", loaderData);
-  const { proposals, } = loaderData as {
-    proposals: Proposal[];
-  };
+  const { proposals } = useLoaderData() as { proposals: Proposal[] };
   const [selectedProposal, setSelectedProposal] = useState<number | null>(null);
+  const connectedState = usePenumbraConnected(PRAX_ORIGIN);
+  const requestApproval = usePenumbraRequestCallback(PRAX_ORIGIN);
 
   return (
-        <QueryClientProvider client={queryClient}>
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-500">
-          Penumbra Governance Proposals
-        </h1>
-          <AppParametersView />
-        {proposals.length === 0 ? (
-          <p className="text-xl text-gray-400">No proposals found.</p>
-        ) : (
-          <ul className="space-y-6">
-            {proposals.map((proposal) => {
-              const key = proposal.proposal_id;
-              const selected = proposal.proposal_id === selectedProposal;
-              return (
-                <ProposalView
-                  proposal={proposal}
-                  key={key}
-                  selected={selected}
-                  setSelectedProposal={setSelectedProposal}
-                />
-              );
-            })}
-          </ul>
-        )}
+    <QueryClientProvider client={queryClient}>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-500">
+            Penumbra Governance Proposals
+          </h1>
+          {!connectedState ? (
+            <div>
+              Connect to your thingy:{" "}
+              <button
+                onClick={() => {
+                  requestApproval?.();
+                  alert("boo");
+                }}
+              >
+                Asdf
+              </button>
+            </div>
+          ) : (
+            <div>nice!! ur connecty</div>
+          )}
+          <PenumbraClientProvider connectedState providerOrigin={PRAX_ORIGIN}>
+            <AppParametersView />
+          </PenumbraClientProvider>
+          {proposals.length === 0 ? (
+            <p className="text-xl text-gray-400">No proposals found.</p>
+          ) : (
+            <ul className="space-y-6">
+              {proposals.map((proposal) => {
+                const key = proposal.proposal_id;
+                const selected = proposal.proposal_id === selectedProposal;
+                return (
+                  <ProposalView
+                    proposal={proposal}
+                    key={key}
+                    selected={selected}
+                    setSelectedProposal={setSelectedProposal}
+                  />
+                );
+              })}
+            </ul>
+          )}
+        </div>
       </div>
-    </div>
-        </QueryClientProvider>
+    </QueryClientProvider>
   );
 }
