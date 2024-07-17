@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "void.vote",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,12 +11,19 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@buf/penumbra-zone_penumbra.bufbuild_es": "^1.10.0-20240703080008-312294d02bf9.1",
+    "@bufbuild/protobuf": "^1.10.0",
+    "@connectrpc/connect": "^1.4.0",
+    "@penumbra-zone/client": "^11.1.0",
+    "@penumbra-zone/protobuf": "^5.4.0",
     "@remix-run/node": "^2.10.2",
     "@remix-run/react": "^2.10.2",
     "@remix-run/serve": "^2.10.2",
+    "@tanstack/react-query": "^5.51.3",
     "dotenv": "^16.4.5",
     "isbot": "^4.1.0",
     "pg": "^8.11.3",
+    "prettier": "^3.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0"
