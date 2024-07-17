@@ -21,19 +21,20 @@ export default function PenumbraClientProvider({
   const [custodyClient, setCustodyClient] =
     useState<PromiseClient<typeof CustodyService>>();
 
-  useEffect(() => {
-    console.log("useEffect");
-    if (connectedState) {
-      if (!viewClient) {
-        console.log("PenumbraClientProvider createViewClient");
-        setViewClient(createViewClient(providerOrigin));
-      }
-      if (!custodyClient) {
-        console.log("PenumbraClientProvider createCustodyClient");
-        setCustodyClient(createCustodyClient(providerOrigin));
-      }
-    }
-  });
+  // This is eagerly requesting permission to the extension automatically
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   if (connectedState) {
+  //     if (!viewClient) {
+  //       console.log("PenumbraClientProvider createViewClient");
+  //       setViewClient(createViewClient(providerOrigin));
+  //     }
+  //     if (!custodyClient) {
+  //       console.log("PenumbraClientProvider createCustodyClient");
+  //       setCustodyClient(createCustodyClient(providerOrigin));
+  //     }
+  //   }
+  // }, []);
 
   const penumbraClients = useMemo(
     () => ({

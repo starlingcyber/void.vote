@@ -1,6 +1,6 @@
 import { PenumbraSymbol } from "@penumbra-zone/client";
 import { useCallback, useEffect, useState } from "react";
-import { getRequestFn } from "../penumbra.client/request";
+import { getRequestApprovalFn } from "../penumbra.client/request";
 
 export const usePenumbraRequestCallback = (providerOrigin: string) => {
   const [requestFn, setRequestFn] = useState<() => Promise<void>>();
@@ -8,13 +8,13 @@ export const usePenumbraRequestCallback = (providerOrigin: string) => {
 
   useEffect(() => {
     if (!requestFn) {
-      const rf = getRequestFn(providerOrigin);
+      const rf = getRequestApprovalFn(providerOrigin);
       console.log('setting request fn', rf);
       setRequestFn(rf);
     }
     console.log('already have request fn', requestFn)
     //else if(!requested) { setRequested(requestFn()) }
-  }, [requestFn, getRequestFn]);
+  }, [requestFn, getRequestApprovalFn]);
 
   return useCallback(() => requestFn?.(), [requestFn]);
 };

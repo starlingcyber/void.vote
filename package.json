@@ -8,6 +8,7 @@
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
+    "format": "prettier .",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -21,12 +22,15 @@
     "@remix-run/serve": "^2.10.2",
     "@tanstack/react-query": "^5.51.3",
     "dotenv": "^16.4.5",
+    "immer": "^10.1.1",
     "isbot": "^4.1.0",
     "pg": "^8.11.3",
     "prettier": "^3.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "remix-utils": "^7.6.0",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.10.2",

@@ -6,7 +6,7 @@ import { createViewClient } from "~/penumbra.client/client";
 import { usePenumbra } from "./usePenumbra";
 
 export default function useAppParameters() {
-  const { viewClient } = usePenumbra();
+  // const { viewClient } = usePenumbra();
 
   return useQuery({
     queryKey: ["appParameters"],
