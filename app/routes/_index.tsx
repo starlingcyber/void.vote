@@ -26,14 +26,10 @@ import {
   assertProvider,
   assertProviderConnected,
 } from "@penumbra-zone/client/assert";
-import AppParametersView from "~/components/AppParametersView";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import PenumbraClientProvider from "~/components/PenumbraClientProvider";
-import { usePenumbraConnected } from "~/hooks/usePenumbraConnected";
-import { usePenumbraRequestCallback } from "~/hooks/usePenumbraRequestCallback";
-import { getRequestApprovalFn } from "~/penumbra.client/request";
-import { useStore } from "~/state";
+import { ClientOnly } from "remix-utils/client-only";
+import AppParamsInnerComponent from "~/components/AppParametersView.client";
 
 const PRAX_ORIGIN = "chrome-extension://lkpmkhpnhknhmibgnmmhdhgdilepfghe";
 
@@ -68,8 +64,6 @@ export default function Index() {
   const { proposals } = useLoaderData() as { proposals: Proposal[] };
   const [selectedProposal, setSelectedProposal] = useState<number | null>(null);
 
-  // const requestApproval = usePenumbraRequestCallback(PRAX_ORIGIN);
-
   return (
     // TODO: Move Providers to root level so you don't have to wrap every route with this
     <QueryClientProvider client={queryClient}>
@@ -79,29 +73,10 @@ export default function Index() {
             Penumbra Governance Proposals
           </h1>
 
-          <AppParametersView />
+          <ClientOnly fallback={<div>Loading...</div>}>
+            {() => <AppParamsInnerComponent />}
+          </ClientOnly>
 
-          {/* {!isConnected ? (
-            <div>
-              Connect to your thingy:{" "}
-              <button
-                onClick={() => {
-                  getRequestApprovalFn(PRAX_ORIGIN);
-                  alert("boo");
-                }}
-              >
-                CONNECT BUTTON
-              </button>
-            </div>
-          ) : (
-            <div>nice!! ur connecty</div>
-          )} */}
-
-          {/* {isConnected && <AppParametersView />} */}
-
-          {/* <PenumbraClientProvider connectedState providerOrigin={PRAX_ORIGIN}>
-            <AppParametersView />
-          </PenumbraClientProvider> */}
           {proposals.length === 0 ? (
             <p className="text-xl text-gray-400">No proposals found.</p>
           ) : (

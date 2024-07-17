@@ -1,22 +1,17 @@
-import { create, StateCreator } from 'zustand'
-import {PraxSlice,createPraxSlice} from './prax'
+import { create, StateCreator } from "zustand";
+import { PraxSlice, createPraxSlice } from "./prax";
 
 // When you create a new slice, add its type here
 export type AllSlices = {
-    prax: PraxSlice;
+  prax: PraxSlice;
 };
-
 
 export type SliceCreator<T> = StateCreator<AllSlices, [], [], T>;
 
 // Create new slices here
 export const useStore = create<AllSlices>()((...a) => ({
-    prax: createPraxSlice(...a),
-}))
-
-
-
-
+  prax: createPraxSlice(...a),
+}));
 
 // loaders (server) *public data
 //  or react-query (client) *prax data
@@ -44,9 +39,3 @@ export const useStore = create<AllSlices>()((...a) => ({
 // Form:
 //    react-query may have to pass data to zustand
 //    Zustand collects the form input & initiates action
-
-
-
-
-
-
