@@ -30,9 +30,9 @@ const getButtonText = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.NotHydrated:
     case ButtonState.Disconnected:
-      return "Connect Wallet";
+      return "Connect Prax Wallet";
     case ButtonState.ExtensionNotInstalled:
-      return "Install Wallet";
+      return "Install Prax Wallet";
     case ButtonState.Connecting:
       return "Connecting...";
     case ButtonState.Connected:
