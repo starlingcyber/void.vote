@@ -1,22 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useStore } from "~/state.client";
 import toast from "react-hot-toast";
-import { refreshPageForReconnect } from "~/util";
+import { refreshPageForReconnect } from "../util";
 import { PenumbraSymbol } from "@penumbra-zone/client";
 import { PRAX_ORIGIN } from "~/constants";
+import { CONNECT_BUTTON_BASE_CLASS } from "~/styles/sharedStyles";
 
 // Constants
 const CHROME_EXTENSION_BASE_URL = "https://chrome.google.com/webstore/detail/";
-
-// Extract extension ID from PRAX_ORIGIN
 const PRAX_EXTENSION_ID = PRAX_ORIGIN.split("//")[1];
 
-// Function to check if Prax is installed
-const isPraxInstalled = (): boolean => {
-  return !!window[PenumbraSymbol]?.[PRAX_ORIGIN];
-};
-
-// Define the possible button states
+// Enum for possible button states
 enum ButtonState {
   NotHydrated,
   ExtensionNotInstalled,
@@ -26,60 +20,46 @@ enum ButtonState {
   Error,
 }
 
-// Determine the appropriate button text based on the current state
-const getButtonText = (state: ButtonState): string => {
+// Utility function to check if Prax is installed
+const isPraxInstalled = (): boolean => {
+  return !!window[PenumbraSymbol]?.[PRAX_ORIGIN];
+};
+
+// Function to get button text based on state
+const getButtonText = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.NotHydrated:
-      return "Connect Wallet";
-    case ButtonState.ExtensionNotInstalled:
-      return "Install Prax Wallet";
     case ButtonState.Disconnected:
       return "Connect Wallet";
+    case ButtonState.ExtensionNotInstalled:
+      return "Install Wallet";
     case ButtonState.Connecting:
       return "Connecting...";
     case ButtonState.Connected:
-      return "Connected";
+      return isHovering ? "Disconnect" : "Wallet Connected";
     case ButtonState.Error:
       return "Retry Connection";
   }
 };
 
-// Generate the button's CSS classes based on its current state
-const getButtonClass = (state: ButtonState): string => {
-  const baseClass =
-    "px-4 py-2 rounded-md font-bold text-white transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500";
-
-  let colorClass: string;
-  let stateClass: string;
-
+// Function to get button CSS classes based on state
+const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.Connected:
-      colorClass = "bg-green-500 hover:bg-green-600";
-      stateClass = "hover:transform hover:-translate-y-1";
-      break;
+      return `${CONNECT_BUTTON_BASE_CLASS} ${isHovering ? "bg-red-500 hover:bg-red-600" : "bg-emerald-500 hover:bg-emerald-600"} focus:ring-emerald-500`;
     case ButtonState.Error:
-      colorClass = "bg-yellow-500 hover:bg-yellow-600";
-      stateClass = "hover:transform hover:-translate-y-1";
-      break;
+      return `${CONNECT_BUTTON_BASE_CLASS} bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-500`;
     case ButtonState.NotHydrated:
     case ButtonState.Connecting:
-      colorClass = "bg-blue-500";
-      stateClass = "opacity-50 cursor-not-allowed";
-      break;
+      return `${CONNECT_BUTTON_BASE_CLASS} bg-gray-400 cursor-not-allowed`;
     case ButtonState.ExtensionNotInstalled:
-      colorClass = "bg-purple-500 hover:bg-purple-600";
-      stateClass = "hover:transform hover:-translate-y-1";
-      break;
+      return `${CONNECT_BUTTON_BASE_CLASS} bg-purple-500 hover:bg-purple-600 focus:ring-purple-500`;
     default:
-      colorClass = "bg-blue-500 hover:bg-blue-600";
-      stateClass = "hover:transform hover:-translate-y-1";
+      return `${CONNECT_BUTTON_BASE_CLASS} bg-blue-500 hover:bg-blue-600 focus:ring-blue-500`;
   }
-
-  return `${baseClass} ${colorClass} ${stateClass}`;
 };
 
 export default function ConnectButton() {
-  // Extract relevant state from the global store
   const {
     requestConnection,
     checkConnectionStatus,
@@ -88,12 +68,11 @@ export default function ConnectButton() {
     connected,
   } = useStore((state) => state.prax);
 
-  // Local state to track the button state
   const [buttonState, setButtonState] = useState<ButtonState>(
     ButtonState.NotHydrated,
   );
+  const [isHovering, setIsHovering] = useState(false);
 
-  // Effect to run once on component mount
   useEffect(() => {
     if (!isPraxInstalled()) {
       setButtonState(ButtonState.ExtensionNotInstalled);
@@ -102,7 +81,6 @@ export default function ConnectButton() {
     }
   }, []);
 
-  // Update button state based on connection status
   useEffect(() => {
     if (!isPraxInstalled()) {
       setButtonState(ButtonState.ExtensionNotInstalled);
@@ -117,13 +95,11 @@ export default function ConnectButton() {
     }
   }, [connected, connectionLoading, connectionErr]);
 
-  // Handle the initial connection state, including potential reconnection attempts
   const handleInitialConnection = useCallback(() => {
     const url = new URL(window.location.href);
     const shouldReconnect = url.searchParams.get("reconnect") === "true";
 
     if (shouldReconnect) {
-      // Clear the reconnect parameter from the URL
       url.searchParams.delete("reconnect");
       window.history.replaceState({}, "", url.toString());
       handleConnect();
@@ -132,7 +108,6 @@ export default function ConnectButton() {
     }
   }, [checkConnectionStatus]);
 
-  // Attempt to establish a connection
   const handleConnect = useCallback(async () => {
     if (
       buttonState === ButtonState.Connecting ||
@@ -158,12 +133,33 @@ export default function ConnectButton() {
     }
   }, [buttonState, requestConnection, checkConnectionStatus]);
 
-  // Handle button click events
+  const handleDisconnect = useCallback(async () => {
+    try {
+      const provider = window[PenumbraSymbol]?.[PRAX_ORIGIN];
+
+      if (provider && provider.disconnect) {
+        await provider.disconnect();
+        toast.success("Wallet disconnected successfully");
+        // Trigger a full page refresh after disconnection
+        window.location.reload();
+      } else {
+        throw new Error("Disconnect method not available");
+      }
+    } catch (error) {
+      console.error("Failed to disconnect wallet:", error);
+      toast.error("Failed to disconnect wallet. Please try again.");
+    }
+  }, []);
+
   const handleClick = useCallback(() => {
     switch (buttonState) {
       case ButtonState.NotHydrated:
       case ButtonState.Connecting:
+        return;
       case ButtonState.Connected:
+        if (isHovering) {
+          handleDisconnect();
+        }
         return;
       case ButtonState.ExtensionNotInstalled:
         window.open(
@@ -178,15 +174,16 @@ export default function ConnectButton() {
         handleConnect();
         break;
     }
-  }, [buttonState, handleConnect]);
+  }, [buttonState, isHovering, handleConnect, handleDisconnect]);
 
-  // Derive button text and CSS class from the current state
-  const buttonText = getButtonText(buttonState);
-  const buttonClass = getButtonClass(buttonState);
+  const buttonText = getButtonText(buttonState, isHovering);
+  const buttonClass = getButtonClass(buttonState, isHovering);
 
   return (
     <button
       onClick={handleClick}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
       disabled={
         buttonState === ButtonState.NotHydrated ||
         buttonState === ButtonState.Connecting
