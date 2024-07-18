@@ -30,6 +30,8 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ClientOnly } from "remix-utils/client-only";
 import AppParamsInnerComponent from "~/components/AppParametersView.client";
+import ConnectButton from "~/components/ConnectButton.client";
+import ConnectButtonWrapper from "~/components/ConnectButtonWrapper";
 
 const PRAX_ORIGIN = "chrome-extension://lkpmkhpnhknhmibgnmmhdhgdilepfghe";
 
@@ -73,9 +75,7 @@ export default function Index() {
             Penumbra Governance Proposals
           </h1>
 
-          <ClientOnly fallback={<div>Loading...</div>}>
-            {() => <AppParamsInnerComponent />}
-          </ClientOnly>
+          <ConnectButtonWrapper />
 
           {proposals.length === 0 ? (
             <p className="text-xl text-gray-400">No proposals found.</p>

@@ -1,6 +1,5 @@
 import type { AppParametersResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb";
 import { useEffect, useState } from "react";
-import { ClientOnly } from "remix-utils/client-only";
 import useAppParameters from "~/hooks.client/useAppParameters";
 import { useStore } from "~/state.client";
 
