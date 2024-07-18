@@ -115,7 +115,7 @@ export default function ConnectButton() {
       await requestConnection();
       const isConnected = checkConnectionStatus();
       if (isConnected) {
-        toast.success("Successfully connected!");
+        // toast.success("Successfully connected!");
       } else {
         throw new Error("Connection failed");
       }
