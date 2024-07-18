@@ -15,7 +15,7 @@ export default function ConnectButtonWrapper() {
       disabled
       className={`${CONNECT_BUTTON_BASE_CLASS} bg-gray-400 cursor-not-allowed`}
     >
-      Connect Wallet
+      Connect Prax Wallet
     </button>
   );
 
