@@ -3,12 +3,8 @@ import { useStore } from "~/state.client";
 import toast from "react-hot-toast";
 import { refreshPageForReconnect } from "../util";
 import { PenumbraSymbol } from "@penumbra-zone/client";
-import { PRAX_ORIGIN } from "~/constants";
+import { PRAX_CHROME_STORE_URL, PRAX_ORIGIN } from "~/constants";
 import { CONNECT_BUTTON_BASE_CLASS } from "~/styles/sharedStyles";
-
-// Constants
-const CHROME_EXTENSION_BASE_URL = "https://chrome.google.com/webstore/detail/";
-const PRAX_EXTENSION_ID = PRAX_ORIGIN.split("//")[1];
 
 // Enum for possible button states
 enum ButtonState {
@@ -162,10 +158,7 @@ export default function ConnectButton() {
         }
         return;
       case ButtonState.ExtensionNotInstalled:
-        window.open(
-          `${CHROME_EXTENSION_BASE_URL}${PRAX_EXTENSION_ID}`,
-          "_blank",
-        );
+        window.open(PRAX_CHROME_STORE_URL, "_blank");
         break;
       case ButtonState.Error:
         refreshPageForReconnect();
