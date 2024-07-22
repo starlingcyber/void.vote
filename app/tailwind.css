@@ -1,3 +1,7 @@
+@import "https://iosevka-webfonts.github.io/iosevka/Iosevka.css";
+@import "https://iosevka-webfonts.github.io/iosevka-slab/iosevka-slab.css";
+@import "https://iosevka-webfonts.github.io/iosevka-aile/iosevka-aile.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

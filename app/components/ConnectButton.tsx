@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react";
 import { ClientOnly } from "remix-utils/client-only";
-import ConnectButton from "./ConnectButton.client";
+import ConnectButton from "./ConnectButtonInner.client";
 import { CONNECT_BUTTON_BASE_CLASS } from "~/styles/sharedStyles";
 import { PRAX_CHROME_STORE_URL } from "~/constants";
 
 export default function ConnectButtonWrapper() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const openChromeExtensionPage = () => {
     window.open(PRAX_CHROME_STORE_URL, "_blank");
   };
@@ -18,15 +11,15 @@ export default function ConnectButtonWrapper() {
   const placeholderButton = (
     <button
       onClick={openChromeExtensionPage}
-      className={`${CONNECT_BUTTON_BASE_CLASS} bg-purple-500 hover:bg-purple-600 focus:ring-purple-500`}
+      className={`${CONNECT_BUTTON_BASE_CLASS} bg-gray-400 cursor-not-allowed`}
     >
-      Install Prax Wallet
+      Loading Wallet...
     </button>
   );
 
   return (
     <ClientOnly fallback={placeholderButton}>
-      {() => (isClient ? <ConnectButton /> : placeholderButton)}
+      {() => <ConnectButton />}
     </ClientOnly>
   );
 }

@@ -6,6 +6,8 @@ import {
   CustodyService,
   PenumbraService,
   ViewService,
+  GovernanceService,
+  StakeService,
 } from "@penumbra-zone/protobuf";
 import { PromiseClient } from "@connectrpc/connect";
 import { createPenumbraClient } from "@penumbra-zone/client/create";
@@ -17,10 +19,10 @@ export interface PraxSlice {
   connected: boolean;
   connectionErr: string | undefined;
   connectionLoading: boolean;
-  viewClient: () => Promise<PromiseClient<typeof ViewService> | undefined>;
-  custodyClient: () => Promise<
-    PromiseClient<typeof CustodyService> | undefined
-  >;
+  stakeQueryClient: () => Promise<PromiseClient<typeof StakeService>>;
+  govQueryClient: () => Promise<PromiseClient<typeof GovernanceService>>;
+  viewClient: () => Promise<PromiseClient<typeof ViewService>>;
+  custodyClient: () => Promise<PromiseClient<typeof CustodyService>>;
   checkConnectionStatus: () => boolean;
 }
 
@@ -66,6 +68,8 @@ export const createPraxSlice: SliceCreator<PraxSlice> = (set, get) => ({
   connectionLoading: false,
 
   // Client getters
+  stakeQueryClient: createClientGetter(StakeService, set),
+  govQueryClient: createClientGetter(GovernanceService, set),
   viewClient: createClientGetter(ViewService, set),
   custodyClient: createClientGetter(CustodyService, set),
 

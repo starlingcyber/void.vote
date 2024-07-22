@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useStore } from "~/state.client";
 import toast from "react-hot-toast";
 import { refreshPageForReconnect } from "../util";
@@ -62,7 +62,7 @@ export default function ConnectButton() {
     connectionErr,
     connectionLoading,
     connected,
-  } = useStore((state) => state.prax);
+  } = useStore((state: any) => state.prax);
 
   const [buttonState, setButtonState] = useState<ButtonState>(
     ButtonState.NotHydrated,
@@ -117,12 +117,12 @@ export default function ConnectButton() {
       if (isConnected) {
         // toast.success("Successfully connected!");
       } else {
-        throw new Error("Connection failed");
+        throw new Error("Connection failed unexpectedly");
       }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
-      toast.error(`Error: ${errorMessage}. Click to try again.`, {
+      toast.error(`${errorMessage}: Try unlocking your wallet?`, {
         duration: 5000,
         position: "top-center",
       });

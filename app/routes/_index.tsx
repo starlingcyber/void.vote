@@ -12,30 +12,12 @@ import { json } from "@remix-run/node";
 import { pool } from "~/db.server";
 import { useState } from "react";
 
-import { ViewService } from "@penumbra-zone/protobuf";
-import { createPenumbraClientSync } from "@penumbra-zone/client/create";
-import { AppParametersResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb.js";
-import { PenumbraSymbol } from "@penumbra-zone/client";
-
-import type { PlainMessage } from "@bufbuild/protobuf";
-import { toPlainMessage } from "@bufbuild/protobuf";
-
 import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
-import {
-  assertProvider,
-  assertProviderConnected,
-} from "@penumbra-zone/client/assert";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ClientOnly } from "remix-utils/client-only";
-import AppParamsInnerComponent from "~/components/AppParametersView.client";
-import ConnectButton from "~/components/ConnectButton.client";
-import ConnectButtonWrapper from "~/components/ConnectButtonWrapper";
+import ConnectButton from "~/components/ConnectButton";
+import AppParameters from "~/components/AppParameters";
 
-const PRAX_ORIGIN = "chrome-extension://lkpmkhpnhknhmibgnmmhdhgdilepfghe";
-
-const queryClient = new QueryClient();
 export const meta: MetaFunction = () => {
   return [
     { title: "Void Vote" },
@@ -68,35 +50,35 @@ export default function Index() {
 
   return (
     // TODO: Move Providers to root level so you don't have to wrap every route with this
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-500">
-            Penumbra Governance Proposals
-          </h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-500">
+          Penumbra Governance Proposals
+        </h1>
 
-          <ConnectButtonWrapper />
+        <ConnectButton />
 
-          {proposals.length === 0 ? (
-            <p className="text-xl text-gray-400">No proposals found.</p>
-          ) : (
-            <ul className="space-y-6">
-              {proposals.map((proposal) => {
-                const key = proposal.proposal_id;
-                const selected = proposal.proposal_id === selectedProposal;
-                return (
-                  <ProposalView
-                    proposal={proposal}
-                    key={key}
-                    selected={selected}
-                    setSelectedProposal={setSelectedProposal}
-                  />
-                );
-              })}
-            </ul>
-          )}
-        </div>
+        <AppParameters />
+
+        {proposals.length === 0 ? (
+          <p className="text-xl text-gray-400">No proposals found.</p>
+        ) : (
+          <ul className="space-y-6">
+            {proposals.map((proposal) => {
+              const key = proposal.proposal_id;
+              const selected = proposal.proposal_id === selectedProposal;
+              return (
+                <ProposalView
+                  proposal={proposal}
+                  key={key}
+                  selected={selected}
+                  setSelectedProposal={setSelectedProposal}
+                />
+              );
+            })}
+          </ul>
+        )}
       </div>
-    </QueryClientProvider>
+    </div>
   );
 }
