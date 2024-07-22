@@ -27,7 +27,7 @@ export default function VotingPower({ proposalId }: { proposalId: number }) {
           // Format the voting power as a string with commas for readability
           const formattedVotingPower = data.toLocaleString();
 
-          return <span>Your voting power: {formattedVotingPower} UM</span>;
+          return <span>{formattedVotingPower} UM</span>;
         };
 
         return <Content />;
