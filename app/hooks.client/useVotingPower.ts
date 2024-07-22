@@ -29,14 +29,18 @@ export default function useVotingPower(proposalId: bigint) {
         const exchangeRate = BigInt(
           response.rateData?.validatorExchangeRate?.lo!,
         );
-        rates.set(identityKey, exchangeRate);
+        // Have to convert identity key to string to use it as a key in the map, or else equality
+        // doesn't work
+        rates.set(identityKey.ik.toString(), exchangeRate);
       }
 
       // Calculate the total voting power for all the notes, based on the exchange rate of the
       // relevant validator at the proposal start
       let power = BigInt(0);
       for (const response of notes) {
-        const identityKey = response.identityKey;
+        // Have to convert identity key to string to use it as a key in the map, or else equality
+        // doesn't work
+        const identityKey = response.identityKey!.ik.toString();
         const exchangeRate = rates.get(identityKey);
         if (exchangeRate) {
           const amount = BigInt(response.noteRecord?.note?.value?.amount?.lo!);
@@ -45,7 +49,8 @@ export default function useVotingPower(proposalId: bigint) {
           power += (amount * exchangeRate) / BigInt(10 ** 8);
         }
       }
-      return power;
+      // Divide by 10^6 because the power is expressed in base units
+      return Number(power) / 10 ** 6;
     },
     enabled: connected,
   });
