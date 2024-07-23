@@ -1,5 +1,6 @@
 import type { Proposal } from "~/types/Proposal";
 import VotingPower from "~/components/VotingPower";
+import VoteButton from "~/components/VoteButton";
 
 const renderValue = (value: any) => {
   if (typeof value === "object" && value !== null) {
@@ -72,11 +73,16 @@ export default function ProposalView({
               {proposal.withdrawal_reason}
             </div>
           )}
-          <div className="mt-4">
+          <div className="mb-2">
             <span className="font-semibold text-orange-400">
               Your Voting Power:
             </span>{" "}
             <VotingPower proposalId={proposal.proposal_id} />
+          </div>
+          <div className="mt-2">
+            <VoteButton proposalId={proposal.proposal_id} vote={"YES"} />
+            <VoteButton proposalId={proposal.proposal_id} vote={"NO"} />
+            <VoteButton proposalId={proposal.proposal_id} vote={"ABSTAIN"} />
           </div>
         </div>
       )}

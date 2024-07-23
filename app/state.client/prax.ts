@@ -1,4 +1,3 @@
-import { create, StateCreator } from "zustand";
 import { AllSlices, SliceCreator } from ".";
 import { produce } from "immer";
 import { PenumbraSymbol } from "@penumbra-zone/client";
