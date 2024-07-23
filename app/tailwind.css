@@ -5,3 +5,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add these to your existing tailwind.css file */
+
+.proposal-voting {
+  @apply border-l-4 border-blue-500;
+}
+
+.proposal-passed {
+  @apply border-l-4 border-green-500;
+}
+
+.proposal-failed {
+  @apply border-l-4 border-red-500;
+}
+
+.proposal-slashed {
+  @apply border-l-4 border-purple-500;
+}
+
+.proposal-withdrawn {
+  @apply border-l-4 border-yellow-500;
+}
+
+.proposal-claimed {
+  @apply border-l-4 border-gray-500;
+}
+
+.proposal-voting .status {
+  @apply bg-blue-500 text-white;
+}
+
+.proposal-passed .status {
+  @apply bg-green-500 text-white;
+}
+
+.proposal-failed .status {
+  @apply bg-red-500 text-white;
+}
+
+.proposal-slashed .status {
+  @apply bg-purple-500 text-white;
+}
+
+.proposal-withdrawn .status {
+  @apply bg-yellow-500 text-black;
+}
+
+.proposal-claimed .status {
+  @apply bg-gray-500 text-white;
+}
