@@ -1,5 +1,5 @@
 export const CONNECT_BUTTON_BASE_CLASS = `
   px-4 py-2 rounded-md font-bold text-white transition-all duration-100 ease-in-out
   focus:outline-none focus:ring-2 focus:ring-offset-2
-  w-64 h-12 flex items-center justify-center text-xl
+  w-72 h-12 flex items-center justify-center text-2xl
 `;

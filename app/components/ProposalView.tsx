@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import type { Proposal } from "~/types/Proposal";
+import VoteButtons from "./VoteButtons";
+import VotingPower from "./VotingPower";
 
 const serializeBigInt = (obj: any): any => {
   if (typeof obj === "bigint") {
@@ -72,7 +74,9 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
         </h2>
 
         <div className="mb-4">
-          <span className={`px-2 py-1 rounded text-lg font-semibold status`}>
+          <span className="font-semibold text-xl text-gray-300">Status:</span>
+          {` `}
+          <span className={`px-2 py-1 rounded text-xl font-semibold status`}>
             {stateText}
           </span>
         </div>
@@ -84,7 +88,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
             Description
           </h3>
           <div className="bg-gray-700 rounded-lg p-4">
-            <div className="prose prose-invert max-w-none text-gray-300">
+            <div className="prose prose-invert max-w-none text-gray-300 text-lg">
               {proposal.description !== "" ? (
                 <ReactMarkdown
                   rehypePlugins={[rehypeSanitize]}
@@ -96,10 +100,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
                   }
                 />
               ) : (
-                <ReactMarkdown
-                  rehypePlugins={[rehypeSanitize]}
-                  children="No description provided."
-                />
+                "No description provided."
               )}
             </div>
           </div>
@@ -110,7 +111,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
             <h3 className="text-xl font-semibold mb-2 text-gray-300">
               Proposal Details
             </h3>
-            <div className="bg-gray-700 rounded-lg p-4">
+            <div className="bg-gray-700 rounded-lg p-4 text-lg">
               <p>
                 <span className="font-semibold text-orange-400">Kind:</span>{" "}
                 {renderValue(proposal.kind)}
@@ -126,7 +127,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
             <h3 className="text-xl font-semibold mb-2 text-gray-300">
               Voting Period
             </h3>
-            <div className="bg-gray-700 rounded-lg p-4">
+            <div className="bg-gray-700 rounded-lg p-4 text-lg">
               <p>
                 <span className="font-semibold text-orange-400">
                   Start Block:
@@ -153,10 +154,11 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
                 src={serializedPayload}
                 theme="monokai"
                 collapsed={1}
+                fontFamily="Iosevka"
                 name={false}
                 displayObjectSize={false}
                 displayDataTypes={false}
-                style={{ background: "transparent", fontSize: "12pt" }}
+                style={{ background: "transparent", fontSize: "13pt" }}
               />
             ) : (
               <pre className="text-sm">
@@ -179,6 +181,18 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
             </div>
           </div>
         )}
+
+        {proposal.state.voting ? (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold mb-2 text-gray-300">Voting</h3>
+            <div className="bg-gray-700 rounded-lg p-4">
+              <VoteButtons
+                proposalId={proposal.proposal_id}
+                isVoting={proposal.state.voting}
+              />
+            </div>
+          </div>
+        ) : null}
       </div>
     </li>
   );

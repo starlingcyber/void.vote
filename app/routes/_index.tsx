@@ -4,6 +4,7 @@ import { json } from "@remix-run/node";
 import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
 import { getProposals } from "~/db.server";
+import ConnectButton from "~/components/ConnectButton";
 
 export const meta: MetaFunction = () => {
   return [
@@ -39,7 +40,9 @@ export default function Index() {
           </a>
         </h2>
 
-        {/* <ConnectButton /> */}
+        <div className="mb-8 flex justify-center">
+          <ConnectButton />
+        </div>
         {/* <AppParameters /> */}
 
         {proposals.length === 0 ? (
