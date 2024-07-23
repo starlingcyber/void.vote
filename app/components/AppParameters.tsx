@@ -1,7 +1,8 @@
 import PraxOnly from "./PraxOnly";
+import {JsonValue} from "@bufbuild/protobuf";
 
 // Function to handle BigInt serialization
-function serializeBigInt(data: any) {
+function serializeBigInt(data: JsonValue) {
   return JSON.parse(
     JSON.stringify(data, (key, value) =>
       typeof value === "bigint" ? value.toString() : value,
