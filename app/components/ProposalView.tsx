@@ -185,11 +185,8 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
         {proposal.state.voting ? (
           <div className="mt-6">
             <h3 className="text-xl font-semibold mb-2 text-gray-300">Voting</h3>
-            <div className="bg-gray-700 rounded-lg p-4">
-              <VoteButtons
-                proposalId={proposal.proposal_id}
-                isVoting={proposal.state.voting}
-              />
+            <div className="bg-gray-700 rounded-lg pl-3 pr-3 pt-3 pb-3">
+              <VoteButtons proposalId={proposal.proposal_id} />
             </div>
           </div>
         ) : null}

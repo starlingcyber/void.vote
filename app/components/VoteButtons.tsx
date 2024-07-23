@@ -2,13 +2,7 @@ import PraxOnly from "~/components/PraxOnly";
 import VoteButton from "~/components/VoteButton";
 import VotingPower from "./VotingPower";
 
-export default function VoteButtons({
-  proposalId,
-  isVoting,
-}: {
-  proposalId: number;
-  isVoting: boolean;
-}) {
+export default function VoteButtons({ proposalId }: { proposalId: number }) {
   return (
     <PraxOnly
       fallback={
@@ -30,22 +24,23 @@ export default function VoteButtons({
 
           if (isLoading) return <p>Loading voting power...</p>;
           if (error) return <p>Error loading voting power</p>;
-          if (!isVoting) return <p>Voting is not active for this proposal</p>;
-          if (votingPower === 0)
-            return <p>You have no voting power for this proposal</p>;
 
-          return (
-            <div className="flex space-x-4 mt-1">
-              <VoteButton proposalId={proposalId} vote="YES" />
-              <VoteButton proposalId={proposalId} vote="NO" />
-              <VoteButton proposalId={proposalId} vote="ABSTAIN" />
-            </div>
-          );
+          if (votingPower === undefined || votingPower === 0) {
+            return null;
+          } else {
+            return (
+              <div className="flex space-x-4 p-2">
+                <VoteButton proposalId={proposalId} vote="YES" />
+                <VoteButton proposalId={proposalId} vote="NO" />
+                <VoteButton proposalId={proposalId} vote="ABSTAIN" />
+              </div>
+            );
+          }
         };
 
         const VotingPowerContent = () => {
           return (
-            <div className="text-xl font-semibold flex center items-center mt-4 ml-3">
+            <div className="text-xl font-semibold flex center items-center p-3 ml-2">
               <span className="text-orange-400">Your Voting Power:</span>&nbsp;
               <VotingPower proposalId={proposalId} />
             </div>
@@ -53,10 +48,10 @@ export default function VoteButtons({
         };
 
         return (
-          <>
+          <div>
             <VotingContent />
             <VotingPowerContent />
-          </>
+          </div>
         );
       }}
     </PraxOnly>
