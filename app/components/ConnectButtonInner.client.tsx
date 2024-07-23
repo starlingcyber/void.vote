@@ -6,7 +6,6 @@ import { PenumbraSymbol } from "@penumbra-zone/client";
 import { PRAX_CHROME_STORE_URL, PRAX_ORIGIN } from "~/constants";
 import { CONNECT_BUTTON_BASE_CLASS } from "~/styles/sharedStyles";
 
-// Enum for possible button states
 enum ButtonState {
   NotHydrated,
   ExtensionNotInstalled,
@@ -16,12 +15,10 @@ enum ButtonState {
   Error,
 }
 
-// Utility function to check if Prax is installed
 const isPraxInstalled = (): boolean => {
   return !!window[PenumbraSymbol]?.[PRAX_ORIGIN];
 };
 
-// Function to get button text based on state
 const getButtonText = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.NotHydrated:
@@ -38,20 +35,33 @@ const getButtonText = (state: ButtonState, isHovering: boolean): string => {
   }
 };
 
-// Function to get button CSS classes based on state
 const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
+  const baseClass = `${CONNECT_BUTTON_BASE_CLASS} border-2`;
   switch (state) {
     case ButtonState.Connected:
-      return `${CONNECT_BUTTON_BASE_CLASS} ${isHovering ? "bg-red-500 hover:bg-red-600" : "bg-emerald-500 hover:bg-emerald-600"} focus:ring-emerald-500`;
+      return `${baseClass} ${isHovering ? "bg-red-600 hover:bg-red-700 border-red-400" : "bg-blue-600 hover:bg-blue-700 border-blue-400"} focus:ring-blue-600`;
     case ButtonState.Error:
-      return `${CONNECT_BUTTON_BASE_CLASS} bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-500`;
+      return `${baseClass} bg-orange-500 hover:bg-orange-600 focus:ring-orange-500 border-orange-400`;
     case ButtonState.NotHydrated:
     case ButtonState.Connecting:
-      return `${CONNECT_BUTTON_BASE_CLASS} bg-gray-400 cursor-not-allowed`;
+      return `${baseClass} bg-gray-400 border-gray-500 cursor-not-allowed`;
     case ButtonState.ExtensionNotInstalled:
-      return `${CONNECT_BUTTON_BASE_CLASS} bg-purple-500 hover:bg-purple-600 focus:ring-purple-500`;
+      return `${baseClass} bg-purple-600 hover:bg-purple-700 focus:ring-purple-600 border-purple-400`;
     default:
-      return `${CONNECT_BUTTON_BASE_CLASS} bg-blue-500 hover:bg-blue-600 focus:ring-blue-500`;
+      return `${baseClass} bg-teal-600 hover:bg-teal-700 focus:ring-teal-600 border-teal-400`;
+  }
+};
+
+const getButtonIcon = (state: ButtonState, isHovering: boolean): string => {
+  switch (state) {
+    case ButtonState.Connected:
+      return isHovering ? "✗ " : "✓ ";
+    case ButtonState.Error:
+      return "⚠ ";
+    case ButtonState.ExtensionNotInstalled:
+      return "⇩ ";
+    default:
+      return "";
   }
 };
 
@@ -171,6 +181,7 @@ export default function ConnectButton() {
 
   const buttonText = getButtonText(buttonState, isHovering);
   const buttonClass = getButtonClass(buttonState, isHovering);
+  const buttonIcon = getButtonIcon(buttonState, isHovering);
 
   return (
     <button
@@ -183,6 +194,7 @@ export default function ConnectButton() {
       }
       className={buttonClass}
     >
+      {buttonIcon}
       {buttonText}
     </button>
   );

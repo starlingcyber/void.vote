@@ -33,19 +33,17 @@ const getProposalStateClass = (state: any) => {
     if (state.finished.outcome.slashed) return "proposal-slashed";
   }
   if (state.withdrawn) return "proposal-withdrawn";
-  if (state.claimed) return "proposal-claimed";
   return "";
 };
 
 const getProposalStateText = (state: any) => {
-  if (state.voting) return "Voting in Progress";
+  if (state.voting) return "Voting in Progress...";
   if (state.finished) {
     if (state.finished.outcome.passed) return "Passed";
     if (state.finished.outcome.failed) return "Failed";
     if (state.finished.outcome.slashed) return "Slashed";
   }
   if (state.withdrawn) return "Withdrawn";
-  if (state.claimed) return "Claimed";
   return "Unknown State";
 };
 
