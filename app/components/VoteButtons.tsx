@@ -12,6 +12,7 @@ export default function VoteButtons({ proposalId }: { proposalId: number }) {
       }
       imports={{
         useVotingPower: () => import("~/hooks.client/useVotingPower"),
+        useAssets: () => import("~/hooks.client/useAssets"),
       }}
     >
       {({ useVotingPower }) => {
