@@ -1,5 +1,3 @@
-// app/hooks.client/useVote.ts
-
 import { useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { PromiseClient } from "@connectrpc/connect";
@@ -87,7 +85,7 @@ export const useVote = (
       const plan = await planVote(view, gov, proposalId, vote, selectedAccount);
 
       if (plan) {
-        toast.loading("Submitting vote transaction...", { id: toastId });
+        toast.loading("Authorizing vote transaction...", { id: toastId });
         await submitTransaction(view, plan, toastId);
         toast.success("Vote submitted successfully!", { id: toastId });
         setButtonState(VoteButtonState.IDLE);

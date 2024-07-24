@@ -1,5 +1,6 @@
 import React from "react";
 import { AccountVotingPower } from "../types/voting";
+import { getVoteIcon } from "./VoteButtonPresentation";
 
 interface AccountSelectionModalProps {
   isOpen: boolean;
@@ -24,7 +25,7 @@ export default function AccountSelectionModal({
       onClick={onClose}
     >
       <div
-        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-3xl relative"
+        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-xl relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -49,21 +50,29 @@ export default function AccountSelectionModal({
         </button>
 
         <h2 className="text-3xl mb-6 font-bold text-teal-400">
-          Select Account to Vote {vote}
+          Select Account to Vote <VotePill vote={vote} />
         </h2>
+        <p className="text-xl mb-4 text-gray-400">
+          You have delegations in more than one account.
+        </p>
+        <p className="text-xl mb-6 text-gray-400">
+          To use all your voting power, vote once using each of your accounts
+          below:
+        </p>
 
         {accountVotingPowers.map((account) => (
           <button
             key={account.accountId}
             onClick={() => onSelectAccount(account.accountId)}
-            className="w-full text-left p-4 hover:bg-gray-700 rounded mb-2 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full text-left p-4 hover:bg-gray-700 rounded mb-2 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 border-2 border-slate-600"
           >
-            <span className="text-xl font-semibold">
-              Account: {account.accountId}
+            <span className="text-xl text-teal-400 font-semibold">
+              Account #{account.accountId}
             </span>
             <br />
-            <span className="text-teal-400">
-              Voting Power: {account.votingPower.toFixed(6)} UM
+            <span className="text-slate-200 font-semibold text-lg">
+              <span className="text-orange-400">Voting Power:</span>{" "}
+              {account.votingPower.toFixed(6)} UM
             </span>
           </button>
         ))}
@@ -78,5 +87,27 @@ export default function AccountSelectionModal({
         </div>
       </div>
     </div>
+  );
+}
+
+function VotePill({ vote }: { vote: "YES" | "NO" | "ABSTAIN" }) {
+  const color =
+    vote === "YES"
+      ? "rgb(34 197 94)"
+      : vote === "NO"
+        ? "rgb(220 38 38)"
+        : "rgb(100 116 139)";
+
+  const symbol = getVoteIcon(vote);
+
+  return (
+    <span
+      className={`px-2 py-1 rounded text-3xl font-semibold text-white`}
+      style={{
+        backgroundColor: color,
+      }}
+    >
+      {symbol} {vote}
+    </span>
   );
 }

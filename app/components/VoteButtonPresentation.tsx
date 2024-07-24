@@ -43,7 +43,7 @@ const getVoteButtonClass = (vote: string, state: VoteButtonState) => {
   return `${VOTE_BUTTON_BASE_CLASS} ${colorClass}`;
 };
 
-const getVoteIcon = (vote: string) => {
+export const getVoteIcon = (vote: "YES" | "NO" | "ABSTAIN") => {
   switch (vote) {
     case "YES":
       return "✓";
@@ -51,8 +51,6 @@ const getVoteIcon = (vote: string) => {
       return "✗";
     case "ABSTAIN":
       return "○";
-    default:
-      return "";
   }
 };
 

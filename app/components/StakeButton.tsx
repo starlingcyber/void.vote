@@ -184,7 +184,7 @@ const StakeModal = ({
           </svg>
         </button>
 
-        <h2 className="text-3xl mb-2 font-bold text-teal-400">
+        <h2 className="text-3xl mb-6 font-bold text-teal-400">
           Stake with{" "}
           <a
             href="https://starlingcyber.net"
@@ -194,8 +194,10 @@ const StakeModal = ({
             Starling Cybernetics
           </a>
         </h2>
-        <p className="text-xl mb-6 text-gray-400">
-          Your delegation supports decentralized governance on Penumbra.
+        <p className="text-xl mb-8 text-gray-400">
+          By staking with us, you can earn rewards, help secure the Penumbra
+          network, and support our work building tools like this for
+          decentralized governance.
         </p>
 
         <div className="grid grid-cols-2 gap-6 mt-6 mb-6">

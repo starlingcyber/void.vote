@@ -90,8 +90,9 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
                 <ReactMarkdown
                   rehypePlugins={[rehypeSanitize]}
                   children={proposal.description}
+                  unwrapDisallowed={true}
                   allowElement={(element) =>
-                    ["p", "br", "em", "strong", "ul", "ol", "li", "a"].includes(
+                    ["p", "br", "em", "strong", "ul", "ol", "li"].includes(
                       element.tagName,
                     )
                   }

@@ -77,7 +77,7 @@ export const useStake = (
         );
 
         if (plan) {
-          toast.loading("Submitting stake transaction...", { id: toastId });
+          toast.loading("Authorizing stake transaction...", { id: toastId });
           await submitTransaction(view, plan, toastId);
           toast.success("Delegation submitted successfully!", { id: toastId });
           setButtonState(StakeButtonState.IDLE);
