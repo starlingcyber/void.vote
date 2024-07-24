@@ -1,3 +1,4 @@
+import { AccountVotingPower } from "~/types/voting";
 import PraxOnly from "./PraxOnly";
 
 export default function VotingPower({ proposalId }: { proposalId: bigint }) {
@@ -11,6 +12,7 @@ export default function VotingPower({ proposalId }: { proposalId: bigint }) {
       {({ useVotingPower }) => {
         const Content = () => {
           const { data, error, isLoading } = useVotingPower.default(proposalId);
+          const powers = data as AccountVotingPower[];
 
           if (isLoading) {
             return <span>Loading voting power...</span>;
@@ -25,7 +27,10 @@ export default function VotingPower({ proposalId }: { proposalId: bigint }) {
           }
 
           // Format the voting power as a string with commas for readability
-          const formattedVotingPower = data.toLocaleString();
+          const formattedVotingPower = powers
+            .map(({ votingPower }) => votingPower)
+            .reduce((acc, power) => acc + power, 0)
+            .toLocaleString();
 
           return <span>{formattedVotingPower} UM</span>;
         };

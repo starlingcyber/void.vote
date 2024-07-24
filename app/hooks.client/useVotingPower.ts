@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { AllSlices, useStore } from "~/state.client";
+import { AccountVotingPower } from "../types/voting";
 
 export default function useVotingPower(proposalId: bigint) {
   const { viewClient, govQueryClient, connected } = useStore(
@@ -22,35 +23,43 @@ export default function useVotingPower(proposalId: bigint) {
       );
 
       // Collect all the exchange rates for the validators at proposal start
-      let rates = new Map();
-      for (const response of rateList) {
-        const identityKey = response.rateData?.identityKey!;
-        // This is expressed as an integer * 10^8, so we need to divide by 10^8 later
-        const exchangeRate = BigInt(
-          response.rateData?.validatorExchangeRate?.lo!,
-        );
-        // Have to convert identity key to string to use it as a key in the map, or else equality
-        // doesn't work
-        rates.set(identityKey.ik.toString(), exchangeRate);
-      }
+      const rates = new Map(
+        rateList.map((response) => [
+          response.rateData?.identityKey!.ik.toString(),
+          BigInt(response.rateData?.validatorExchangeRate?.lo!),
+        ]),
+      );
 
-      // Calculate the total voting power for all the notes, based on the exchange rate of the
-      // relevant validator at the proposal start
-      let power = BigInt(0);
+      // Calculate the voting power for each account
+      const accountVotingPowers = new Map<number, bigint>();
+
       for (const response of notes) {
-        // Have to convert identity key to string to use it as a key in the map, or else equality
-        // doesn't work
+        const accountId = response.noteRecord?.addressIndex?.account || 0;
         const identityKey = response.identityKey!.ik.toString();
         const exchangeRate = rates.get(identityKey);
+
         if (exchangeRate) {
           const amount = BigInt(response.noteRecord?.note?.value?.amount?.lo!);
-          // Divide by 10^8 to get the actual amount, because the exchange rate is expressed as an
-          // integer * 10^8
-          power += (amount * exchangeRate) / BigInt(10 ** 8);
+          const power = (amount * exchangeRate) / BigInt(10 ** 8);
+
+          accountVotingPowers.set(
+            accountId,
+            (accountVotingPowers.get(accountId) || BigInt(0)) + power,
+          );
         }
       }
-      // Divide by 10^6 because the power is expressed in base units
-      return Number(power) / 10 ** 6;
+
+      // Convert to AccountVotingPower array and sort by voting power
+      const result: AccountVotingPower[] = Array.from(
+        accountVotingPowers.entries(),
+      )
+        .map(([accountId, power]) => ({
+          accountId,
+          votingPower: Number(power) / 10 ** 6,
+        }))
+        .sort((a, b) => b.votingPower - a.votingPower);
+
+      return result;
     },
     enabled: connected,
   });
