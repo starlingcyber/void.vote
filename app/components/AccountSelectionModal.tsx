@@ -25,7 +25,7 @@ export default function AccountSelectionModal({
       onClick={onClose}
     >
       <div
-        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-xl relative"
+        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-2xl relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -52,12 +52,11 @@ export default function AccountSelectionModal({
         <h2 className="text-3xl mb-6 font-bold text-teal-400">
           Select Account to Vote <VotePill vote={vote} />
         </h2>
-        <p className="text-xl mb-4 text-gray-400">
+        <p className="text-xl text-gray-400">
           You have delegations in more than one account.
         </p>
         <p className="text-xl mb-6 text-gray-400">
-          To use all your voting power, vote once using each of your accounts
-          below:
+          You may vote using each of your accounts below:
         </p>
 
         {accountVotingPowers.map((account) => (

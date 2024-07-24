@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
-import { getProposals } from "~/db.server";
+import { getProposals, tallyVotes } from "~/db.server";
 import ConnectButton from "~/components/ConnectButton";
 import StakeButton from "~/components/StakeButton";
 import { VALIDATOR_ADDRESS } from "~/constants";
@@ -19,7 +19,16 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request, params, context }: LoaderFunctionArgs) {
-  return json({ proposals: await getProposals() });
+  const proposals = await getProposals();
+
+  const proposalsWithTally = await Promise.all(
+    proposals.map(async (proposal) => {
+      const tally = await tallyVotes(proposal.proposal_id);
+      return { ...proposal, tally };
+    }),
+  );
+
+  return json({ proposals: proposalsWithTally });
 }
 
 export default function Index() {

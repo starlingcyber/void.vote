@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import type { Proposal } from "~/types/Proposal";
 import VoteButtons from "./VoteButtons";
+import VoteTallyBar from "./VoteTallyBar";
 
 const serializeBigInt = (obj: any): any => {
   if (typeof obj === "bigint") {
@@ -188,6 +189,15 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
             </div>
           </div>
         ) : null}
+
+        {proposal.tally && (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold mb-2 text-gray-300">
+              Vote Tally
+            </h3>
+            <VoteTallyBar {...proposal.tally} />
+          </div>
+        )}
       </div>
     </li>
   );

@@ -1,4 +1,3 @@
-
 export type Proposal = {
   proposal_id: number;
   title: string;
@@ -11,4 +10,9 @@ export type Proposal = {
   proposal_deposit_amount: number;
   withdrawn: boolean;
   withdrawal_reason: string | null;
+  tally?: {
+    yes: number;
+    no: number;
+    abstain: number;
+  };
 };

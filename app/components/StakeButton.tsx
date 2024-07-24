@@ -196,8 +196,7 @@ const StakeModal = ({
         </h2>
         <p className="text-xl mb-8 text-gray-400">
           By staking with us, you can earn rewards, help secure the Penumbra
-          network, and support our work building tools like this for
-          decentralized governance.
+          network, and support our work building tools like this.
         </p>
 
         <div className="grid grid-cols-2 gap-6 mt-6 mb-6">
