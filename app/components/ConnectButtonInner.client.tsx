@@ -59,7 +59,7 @@ const getButtonIcon = (state: ButtonState, isHovering: boolean): string => {
     case ButtonState.Error:
       return "⚠ ";
     case ButtonState.ExtensionNotInstalled:
-      return "⇩ ";
+      return "";
     default:
       return "";
   }

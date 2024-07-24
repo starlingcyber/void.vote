@@ -5,6 +5,7 @@ import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
 import { getProposals } from "~/db.server";
 import ConnectButton from "~/components/ConnectButton";
+import StakeButton from "~/components/StakeButton";
 
 export const meta: MetaFunction = () => {
   return [
@@ -42,6 +43,7 @@ export default function Index() {
 
         <div className="mb-8 flex justify-center">
           <ConnectButton />
+          {/* <StakeButton validatorAddress="" /> */}
         </div>
         {/* <AppParameters /> */}
 

@@ -3,7 +3,6 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import type { Proposal } from "~/types/Proposal";
 import VoteButtons from "./VoteButtons";
-import VotingPower from "./VotingPower";
 
 const serializeBigInt = (obj: any): any => {
   if (typeof obj === "bigint") {

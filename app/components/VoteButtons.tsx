@@ -6,7 +6,7 @@ export default function VoteButtons({ proposalId }: { proposalId: number }) {
   return (
     <PraxOnly
       fallback={
-        <p className="text-xl font-semibold flex center text-gray-400">
+        <p className="text-xl font-semibold flex center text-gray-400 p-3 ml-2">
           Connect Prax Wallet to vote on this proposal.
         </p>
       }
@@ -42,7 +42,10 @@ export default function VoteButtons({ proposalId }: { proposalId: number }) {
         const VotingPowerContent = () => {
           return (
             <div className="text-xl font-semibold flex center items-center p-3 ml-2">
-              <span className="text-orange-400">Your Voting Power:</span>&nbsp;
+              <span className="text-orange-400">
+                Your Voting Power for Proposal #{proposalId}:
+              </span>
+              &nbsp;
               <VotingPower proposalId={proposalId} />
             </div>
           );
