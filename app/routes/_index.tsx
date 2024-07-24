@@ -6,6 +6,7 @@ import ProposalView from "~/components/ProposalView";
 import { getProposals } from "~/db.server";
 import ConnectButton from "~/components/ConnectButton";
 import StakeButton from "~/components/StakeButton";
+import { VALIDATOR_ADDRESS } from "~/constants";
 
 export const meta: MetaFunction = () => {
   return [
@@ -43,7 +44,8 @@ export default function Index() {
 
         <div className="mb-8 flex justify-center">
           <ConnectButton />
-          {/* <StakeButton validatorAddress="" /> */}
+          <span className="mx-2"></span>
+          <StakeButton validatorAddress={VALIDATOR_ADDRESS} />
         </div>
         {/* <AppParameters /> */}
 

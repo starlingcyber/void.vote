@@ -33,7 +33,24 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
-      <Toaster />
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: "linear-gradient(to right, #1f2937, #111827)",
+            color: "#ffffff",
+            border: "1px solid",
+            borderImageSlice: 1,
+            borderImageSource: "linear-gradient(to right, #2dd4bf, #f97316)",
+            boxShadow: "0 0 15px rgba(45, 212, 191, 0.3)",
+            fontFamily: "Iosevka Aile Web",
+            fontSize: "14pt",
+            borderRadius: "8px",
+            maxWidth: "550px",
+            margin: "15px",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }

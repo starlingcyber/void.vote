@@ -4,6 +4,10 @@ import { PromiseClient } from "@connectrpc/connect";
 import { StakeService, ViewService } from "@penumbra-zone/protobuf";
 import { FeeTier_Tier } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/component/fee/v1/fee_pb";
 import { submitTransaction } from "./submit";
+import {
+  AddressIndex,
+  IdentityKey,
+} from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
 
 export enum StakeButtonState {
   IDLE = "IDLE",
@@ -16,22 +20,18 @@ async function planStake(
   view: PromiseClient<typeof ViewService>,
   stake: PromiseClient<typeof StakeService>,
   amount: bigint,
+  account: number,
   validatorAddress: string,
 ) {
-  const selfAddress = (
-    await view.addressByIndex({
-      addressIndex: { account: 0 },
-    })
-  ).address;
-
-  // TODO: Implement proper conversion from validatorAddress to identityKey
-  const identityKey = { key: Buffer.from(validatorAddress, "hex") };
+  const identityKey = IdentityKey.fromJson({
+    ik: validatorAddress,
+  });
 
   const rateData = (
-    await stake.currentValidatorRate({
+    await stake.getValidatorInfo({
       identityKey,
     })
-  ).data;
+  ).validatorInfo!.rateData!;
 
   const plan = await view.transactionPlanner({
     feeMode: {
@@ -40,6 +40,7 @@ async function planStake(
         feeTier: FeeTier_Tier.LOW,
       },
     },
+    source: new AddressIndex({ account }),
     delegations: [
       {
         amount: { lo: amount, hi: BigInt(0) },
@@ -51,58 +52,61 @@ async function planStake(
 }
 
 export const useStake = (
-  view: PromiseClient<typeof ViewService> | undefined,
-  stake: PromiseClient<typeof StakeService> | undefined,
+  view: PromiseClient<typeof ViewService>,
+  stake: PromiseClient<typeof StakeService>,
   validatorAddress: string,
 ) => {
   const [buttonState, setButtonState] = useState<StakeButtonState>(
     StakeButtonState.IDLE,
   );
+  const [account, setAccount] = useState<number>(0);
 
   const handleStakeSubmit = useCallback(
     async (amount: bigint) => {
-      if (!view || !stake) {
-        toast.error("View or Stake client not available");
-        return;
-      }
-
       setButtonState(StakeButtonState.SUBMITTING);
       const toastId = toast.loading("Preparing to submit stake...");
 
       try {
         toast.loading("Planning stake transaction...", { id: toastId });
-        console.log("Planning stake...");
-        const plan = await planStake(view, stake, amount, validatorAddress);
+        const plan = await planStake(
+          view,
+          stake,
+          amount,
+          account,
+          validatorAddress,
+        );
 
         if (plan) {
-          console.log("Plan created, submitting transaction...");
           toast.loading("Submitting stake transaction...", { id: toastId });
           await submitTransaction(view, plan, toastId);
-          console.log("Transaction submitted successfully");
-          toast.success("Stake submitted successfully!", { id: toastId });
+          toast.success("Delegation submitted successfully!", { id: toastId });
           setButtonState(StakeButtonState.IDLE);
         } else {
           throw new Error("Failed to create transaction plan");
         }
       } catch (error: unknown) {
-        console.error("Error in stake submission:", error);
         if (error instanceof Error) {
-          toast.error(`Failed to submit stake: ${error.message}`, {
+          toast.error(`Failed to submit delegation: ${error.message}`, {
             id: toastId,
           });
         } else {
-          toast.error("Failed to submit stake: An unknown error occurred", {
-            id: toastId,
-          });
+          toast.error(
+            "Failed to submit delegation: An unknown error occurred",
+            {
+              id: toastId,
+            },
+          );
         }
         setButtonState(StakeButtonState.ERROR);
       }
     },
-    [view, stake, validatorAddress],
+    [view, stake, validatorAddress, account],
   );
 
   return {
     buttonState,
+    account,
+    setAccount,
     handleStakeSubmit,
   };
 };

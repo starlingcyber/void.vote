@@ -6,6 +6,7 @@ import { FeeTier_Tier } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/c
 import { Vote_Vote } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/component/governance/v1/governance_pb";
 import { VoteButtonState } from "../components/VoteButtonPresentation";
 import { submitTransaction } from "./submit";
+import { AddressIndex } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
 
 async function planVote(
   view: PromiseClient<typeof ViewService>,
@@ -31,12 +32,6 @@ async function planVote(
     await Array.fromAsync(gov.proposalRateData({ proposalId }))
   ).map((response) => response.rateData!);
 
-  const selfAddress = (
-    await view.addressByIndex({
-      addressIndex: { account: 0 },
-    })
-  ).address;
-
   const plan = await view.transactionPlanner({
     feeMode: {
       case: "autoFee",
@@ -44,17 +39,7 @@ async function planVote(
         feeTier: FeeTier_Tier.LOW,
       },
     },
-    // FIXME: This is a hack to work around a bug where the planner will throw an error if it can't
-    // determine an "alt fee token", so we give it something to use for its heuristic
-    outputs: [
-      {
-        value: {
-          amount: { lo: BigInt(0), hi: BigInt(0) },
-          assetId: { altBaseDenom: "upenumbra" },
-        },
-        address: selfAddress,
-      },
-    ],
+    source: new AddressIndex({ account: 0 }),
     delegatorVotes: [
       {
         proposal: proposalId,

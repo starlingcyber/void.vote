@@ -9,11 +9,12 @@ export default function useBalances() {
     queryFn: async () => {
       console.log("queryFn");
       const response = (await viewClient())?.balances({});
-
       if (response) {
         return Array.fromAsync(response);
       } else return [];
     },
     enabled: connected,
+    // This will refetch the data every 10 seconds while the component is mounted
+    refetchInterval: 10000,
   });
 }

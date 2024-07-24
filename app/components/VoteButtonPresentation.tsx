@@ -36,8 +36,8 @@ const getVoteButtonClass = (vote: string, state: VoteButtonState) => {
   } else if (state === VoteButtonState.SUBMITTING) {
     colorClass = "bg-gray-400 border-gray-500 cursor-not-allowed";
   } else if (state === VoteButtonState.ERROR) {
-    colorClass =
-      "bg-red-600 hover:bg-red-700 focus:ring-red-600 border-red-400";
+    // colorClass =
+    //   "bg-red-600 hover:bg-red-700 focus:ring-red-600 border-red-400";
   }
 
   return `${VOTE_BUTTON_BASE_CLASS} ${colorClass}`;
@@ -76,7 +76,7 @@ export const VoteButtonPresentation: React.FC<VoteButtonPresentationProps> = ({
       case VoteButtonState.SUBMITTING:
         return "Submitting...";
       case VoteButtonState.ERROR:
-        return `Retry ${vote}`;
+        return `${getVoteIcon(vote)} Retry ${vote}`;
       default:
         return `${getVoteIcon(vote)} ${vote}`;
     }

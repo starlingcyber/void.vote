@@ -55,7 +55,7 @@ const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
 const getButtonIcon = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.Connected:
-      return isHovering ? "✗ " : "✓ ";
+      return isHovering ? "✗ " : "🔗 ";
     case ButtonState.Error:
       return "⚠ ";
     case ButtonState.ExtensionNotInstalled:

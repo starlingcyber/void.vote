@@ -45,7 +45,7 @@ export async function submitTransaction(
   for await (const response of broadcastResponses) {
     switch (response.status.case) {
       case "broadcastSuccess": {
-        toast.loading(`Transaction broadcast: ${response.status.value.id}`, {
+        toast.loading(`Transaction broadcast`, {
           id: toastId,
         });
         break;
