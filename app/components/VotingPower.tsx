@@ -1,6 +1,6 @@
 import PraxOnly from "./PraxOnly";
 
-export default function VotingPower({ proposalId }: { proposalId: number }) {
+export default function VotingPower({ proposalId }: { proposalId: bigint }) {
   return (
     <PraxOnly
       fallback={<span>Connect wallet to view voting power</span>}

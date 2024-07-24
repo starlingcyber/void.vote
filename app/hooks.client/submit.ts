@@ -11,7 +11,6 @@ export async function submitTransaction(
   plan: TransactionPlan,
   toastId: string,
 ) {
-  console.log("about to authorizeAndBuild");
   const responses = view.authorizeAndBuild({ transactionPlan: plan });
   let transaction: Transaction | undefined;
 
@@ -19,12 +18,10 @@ export async function submitTransaction(
     switch (response.status.case) {
       case "buildProgress": {
         const progress = Math.round(response.status.value.progress * 100);
-        console.log("Building transaction:", progress, "%");
         toast.loading(`Building transaction: ${progress}%`, { id: toastId });
         break;
       }
       case "complete": {
-        console.log("Transaction built successfully");
         toast.success("Transaction built successfully", { id: toastId });
         transaction = response.status.value.transaction;
       }

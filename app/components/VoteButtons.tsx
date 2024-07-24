@@ -2,7 +2,7 @@ import PraxOnly from "~/components/PraxOnly";
 import VoteButton from "~/components/VoteButton";
 import VotingPower from "./VotingPower";
 
-export default function VoteButtons({ proposalId }: { proposalId: number }) {
+export default function VoteButtons({ proposalId }: { proposalId: bigint }) {
   return (
     <PraxOnly
       fallback={
@@ -43,7 +43,7 @@ export default function VoteButtons({ proposalId }: { proposalId: number }) {
           return (
             <div className="text-xl font-semibold flex center items-center p-3 ml-2">
               <span className="text-orange-400">
-                Your Voting Power for Proposal #{proposalId}:
+                Your Voting Power for Proposal #{proposalId.toString()}:
               </span>
               &nbsp;
               <VotingPower proposalId={proposalId} />

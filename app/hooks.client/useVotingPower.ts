@@ -7,7 +7,7 @@ export default function useVotingPower(proposalId: bigint) {
   );
 
   return useQuery({
-    queryKey: ["votingPower", proposalId],
+    queryKey: ["votingPower", proposalId.toString()],
     queryFn: async () => {
       const view = await viewClient();
       const gov = await govQueryClient();

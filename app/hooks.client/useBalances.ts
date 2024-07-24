@@ -7,7 +7,6 @@ export default function useBalances() {
   return useQuery({
     queryKey: ["balances"],
     queryFn: async () => {
-      console.log("queryFn");
       const response = (await viewClient())?.balances({});
       if (response) {
         return Array.fromAsync(response);

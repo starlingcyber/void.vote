@@ -11,7 +11,6 @@ export default function useAssets() {
   return useQuery({
     queryKey: ["assets"],
     queryFn: async () => {
-      console.log("queryFn");
       const responses = (await viewClient())?.assets({});
 
       let assets: Map<AssetId, Metadata> = new Map();

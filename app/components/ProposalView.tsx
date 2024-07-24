@@ -91,7 +91,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
                   rehypePlugins={[rehypeSanitize]}
                   children={proposal.description}
                   allowElement={(element) =>
-                    ["p", "br", "em", "strong", "ul", "ol", "li"].includes(
+                    ["p", "br", "em", "strong", "ul", "ol", "li", "a"].includes(
                       element.tagName,
                     )
                   }
@@ -183,7 +183,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
           <div className="mt-6">
             <h3 className="text-xl font-semibold mb-2 text-gray-300">Voting</h3>
             <div className="bg-gray-700 rounded-lg pl-3 pr-3 pt-3 pb-3">
-              <VoteButtons proposalId={proposal.proposal_id} />
+              <VoteButtons proposalId={BigInt(proposal.proposal_id)} />
             </div>
           </div>
         ) : null}

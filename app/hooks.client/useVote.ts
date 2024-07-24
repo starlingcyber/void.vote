@@ -1,3 +1,5 @@
+// app/hooks.client/useVote.ts
+
 import { useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { PromiseClient } from "@connectrpc/connect";
@@ -13,6 +15,7 @@ async function planVote(
   gov: PromiseClient<typeof GovernanceService>,
   proposalId: bigint,
   vote: "YES" | "NO" | "ABSTAIN",
+  accountId: number | null,
 ) {
   let protoVote;
   switch (vote) {
@@ -39,7 +42,7 @@ async function planVote(
         feeTier: FeeTier_Tier.LOW,
       },
     },
-    source: new AddressIndex({ account: 0 }),
+    source: new AddressIndex({ account: accountId ?? 0 }),
     delegatorVotes: [
       {
         proposal: proposalId,
@@ -56,8 +59,9 @@ async function planVote(
 export const useVote = (
   view: PromiseClient<typeof ViewService> | undefined,
   gov: PromiseClient<typeof GovernanceService> | undefined,
-  proposalId: number,
+  proposalId: bigint,
   vote: "YES" | "NO" | "ABSTAIN",
+  selectedAccount: number | null,
 ) => {
   const [buttonState, setButtonState] = useState<VoteButtonState>(
     VoteButtonState.IDLE,
@@ -69,20 +73,22 @@ export const useVote = (
       return;
     }
 
+    if (selectedAccount === null) {
+      toast.error("Please select an account to vote with");
+      return;
+    }
+
     setButtonState(VoteButtonState.SUBMITTING);
     const toastId = toast.loading("Preparing to submit vote...");
 
     try {
       setButtonState(VoteButtonState.SUBMITTING);
       toast.loading("Planning vote transaction...", { id: toastId });
-      console.log("Planning vote...");
-      const plan = await planVote(view, gov, BigInt(proposalId), vote);
+      const plan = await planVote(view, gov, proposalId, vote, selectedAccount);
 
       if (plan) {
-        console.log("Plan created, submitting transaction...");
         toast.loading("Submitting vote transaction...", { id: toastId });
         await submitTransaction(view, plan, toastId);
-        console.log("Transaction submitted successfully");
         toast.success("Vote submitted successfully!", { id: toastId });
         setButtonState(VoteButtonState.IDLE);
       } else {
@@ -99,7 +105,7 @@ export const useVote = (
       }
       setButtonState(VoteButtonState.ERROR);
     }
-  }, [view, gov, proposalId, vote]);
+  }, [view, gov, proposalId, vote, selectedAccount]);
 
   return {
     buttonState,
