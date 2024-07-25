@@ -16,6 +16,8 @@ const VOTE_BUTTON_BASE_CLASS = `
 
 const getVoteButtonClass = (vote: string, state: VoteButtonState) => {
   let colorClass = "";
+  let animationClass = "";
+
   switch (vote) {
     case "YES":
       colorClass =
@@ -34,13 +36,14 @@ const getVoteButtonClass = (vote: string, state: VoteButtonState) => {
   if (state === VoteButtonState.LOADING) {
     colorClass = "bg-gray-300 border-gray-400 cursor-not-allowed";
   } else if (state === VoteButtonState.SUBMITTING) {
-    colorClass = "bg-gray-400 border-gray-500 cursor-not-allowed";
+    colorClass = `${colorClass} cursor-not-allowed`;
+    animationClass = "animate-pulse";
   } else if (state === VoteButtonState.ERROR) {
     // colorClass =
     //   "bg-red-600 hover:bg-red-700 focus:ring-red-600 border-red-400";
   }
 
-  return `${VOTE_BUTTON_BASE_CLASS} ${colorClass}`;
+  return `${VOTE_BUTTON_BASE_CLASS} ${colorClass} ${animationClass}`;
 };
 
 export const getVoteIcon = (vote: "YES" | "NO" | "ABSTAIN") => {
@@ -72,7 +75,7 @@ export const VoteButtonPresentation: React.FC<VoteButtonPresentationProps> = ({
       case VoteButtonState.LOADING:
         return "Loading...";
       case VoteButtonState.SUBMITTING:
-        return "Submitting...";
+        return `${getVoteIcon(vote)} Casting ${vote}...`;
       case VoteButtonState.ERROR:
         return `${getVoteIcon(vote)} Retry ${vote}`;
       default:

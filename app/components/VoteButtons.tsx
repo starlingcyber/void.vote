@@ -6,8 +6,8 @@ export default function VoteButtons({ proposalId }: { proposalId: bigint }) {
   return (
     <PraxOnly
       fallback={
-        <p className="text-xl font-semibold flex center text-gray-400 p-3 ml-2">
-          Connect Prax Wallet to vote on this proposal.
+        <p className="text-xl text-center text-gray-400 p-1 ml-2">
+          Connect wallet to vote on this proposal.
         </p>
       }
       imports={{

@@ -20,8 +20,16 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
   const formatVotes = (votes: number) => (votes / 1_000_000).toFixed(6);
   const formatPercentage = (percentage: number) => percentage.toFixed(2);
 
+  if (total == 0) {
+    return (
+      <div className="w-full text-center py-4 bg-gray-700 rounded-lg text-gray-400 text-xl">
+        No votes have been cast.
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full">
+    <div className="w-full p-4 bg-gray-700 rounded-lg text-gray-400 text-lg">
       <div className="relative h-8 flex rounded-full overflow-hidden">
         <div
           className="bg-green-500 h-full"
@@ -46,25 +54,32 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
         <div className="mt-2 text-center">
           {hoveredSection === "yes" && (
             <span className="text-green-400">
-              Yes: {formatVotes(yes)} UM ({formatPercentage(yesPercentage)}%)
+              <span className="font-bold">Yes:</span> {formatVotes(yes)} UM (
+              {formatPercentage(yesPercentage)}%)
             </span>
           )}
           {hoveredSection === "no" && (
             <span className="text-red-400">
-              No: {formatVotes(no)} UM ({formatPercentage(noPercentage)}%)
+              <span className="font-bold">No:</span> {formatVotes(no)} UM (
+              {formatPercentage(noPercentage)}%)
             </span>
           )}
           {hoveredSection === "abstain" && (
             <span className="text-slate-400">
-              Abstain: {formatVotes(abstain)} UM (
-              {formatPercentage(abstainPercentage)}%)
+              <span className="font-bold">Abstain:</span> {formatVotes(abstain)}{" "}
+              UM ({formatPercentage(abstainPercentage)}%)
             </span>
           )}
         </div>
       )}
       {!hoveredSection && (
         <div className="mt-2 text-center text-gray-300">
-          Total Votes: {formatVotes(total)} UM | Hover over sections for details
+          <span className="text-orange-400 font-semibold">Total Votes:</span>{" "}
+          <span className="font-semibold">{formatVotes(total)} UM</span>
+          <span className="text-slate-400">
+            {" "}
+            | Hover over sections for details
+          </span>
         </div>
       )}
     </div>

@@ -49,8 +49,6 @@ export default function VoteButtonContent({
   const submitVote = useCallback(() => {
     if (selectedAccount !== null) {
       handleVoteSubmit();
-    } else {
-      toast.error("Please select an account to vote with");
     }
   }, [selectedAccount, handleVoteSubmit]);
 

@@ -55,8 +55,8 @@ async function planVote(
 }
 
 export const useVote = (
-  view: PromiseClient<typeof ViewService> | undefined,
-  gov: PromiseClient<typeof GovernanceService> | undefined,
+  view: PromiseClient<typeof ViewService>,
+  gov: PromiseClient<typeof GovernanceService>,
   proposalId: bigint,
   vote: "YES" | "NO" | "ABSTAIN",
   selectedAccount: number | null,
@@ -66,13 +66,7 @@ export const useVote = (
   );
 
   const handleVoteSubmit = useCallback(async () => {
-    if (!view || !gov) {
-      toast.error("View or Governance client not available");
-      return;
-    }
-
     if (selectedAccount === null) {
-      toast.error("Please select an account to vote with");
       return;
     }
 

@@ -15,6 +15,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./favicon.png" rel="icon" sizes="80x80" type="image/png" />
         <Meta />
         <Links />
       </head>
@@ -35,7 +36,12 @@ export default function App() {
       <Outlet />
       <Toaster
         position="bottom-right"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
         toastOptions={{
+          className: "",
           style: {
             background: "linear-gradient(to right, #1f2937, #111827)",
             color: "#ffffff",
@@ -45,9 +51,9 @@ export default function App() {
             boxShadow: "0 0 15px rgba(45, 212, 191, 0.3)",
             fontFamily: "Iosevka Aile Web",
             fontSize: "14pt",
-            borderRadius: "8px",
+            borderRadius: "16px",
+            padding: "16px",
             maxWidth: "550px",
-            margin: "15px",
           },
         }}
       />

@@ -23,13 +23,13 @@ const getButtonText = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.NotHydrated:
     case ButtonState.Disconnected:
-      return "Connect Prax Wallet";
+      return "Connect Wallet";
     case ButtonState.ExtensionNotInstalled:
       return "Install Prax Wallet";
     case ButtonState.Connecting:
       return "Connecting...";
     case ButtonState.Connected:
-      return isHovering ? "Disconnect" : "Wallet Connected";
+      return isHovering ? "Disconnect Wallet" : "Wallet Connected";
     case ButtonState.Error:
       return "Retry Connection";
   }
@@ -44,7 +44,7 @@ const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
       return `${baseClass} bg-orange-500 hover:bg-orange-600 focus:ring-orange-500 border-orange-400`;
     case ButtonState.NotHydrated:
     case ButtonState.Connecting:
-      return `${baseClass} bg-gray-400 border-gray-500 cursor-not-allowed`;
+      return `${baseClass} bg-blue-600 hover:bg-blue-700 border-blue-400 focus:ring-blue-600 cursor-not-allowed animate-pulse`;
     case ButtonState.ExtensionNotInstalled:
       return `${baseClass} bg-purple-600 hover:bg-purple-700 focus:ring-purple-600 border-purple-400`;
     default:
@@ -55,13 +55,13 @@ const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
 const getButtonIcon = (state: ButtonState, isHovering: boolean): string => {
   switch (state) {
     case ButtonState.Connected:
-      return isHovering ? "✗ " : "🔗 ";
+      return isHovering ? "⛓️‍💥 " : "🔗 ";
     case ButtonState.Error:
-      return "⚠ ";
+      return "⟳ ";
     case ButtonState.ExtensionNotInstalled:
       return "";
     default:
-      return "";
+      return "🔗 ";
   }
 };
 
@@ -122,6 +122,7 @@ export default function ConnectButton() {
       return;
 
     try {
+      toast.loading("Requesting wallet connection...", { id: "connect" });
       await requestConnection();
       const isConnected = checkConnectionStatus();
       if (isConnected) {
@@ -132,10 +133,12 @@ export default function ConnectButton() {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
-      toast.error(`${errorMessage}: Try unlocking your wallet?`, {
+      toast.error(`${errorMessage}: try unlocking wallet?`, {
         duration: 5000,
-        position: "top-center",
+        id: "connect",
       });
+    } finally {
+      toast.dismiss("connect");
     }
   }, [buttonState, requestConnection, checkConnectionStatus]);
 
