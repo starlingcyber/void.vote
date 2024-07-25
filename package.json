@@ -9,8 +9,7 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "netlify serve",
     "format": "prettier .",
-    "typecheck": "tsc",
-    "postinstall": "remix setup node"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@buf/penumbra-zone_penumbra.bufbuild_es": "1.10.0-20240703080008-312294d02bf9.1",

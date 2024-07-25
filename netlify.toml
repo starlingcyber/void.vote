@@ -1,7 +1,6 @@
 [build]
   command = "npm run build"
   publish = "public"
-  functions = ".netlify/functions-internal"
 
 [dev]
   command = "remix watch"
