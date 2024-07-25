@@ -1,10 +1,10 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { loadEnv } from 'vite';
+import { loadEnv } from "vite";
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = loadEnv(mode, process.cwd(), "");
   return {
     plugins: [
       remix({
@@ -20,7 +20,14 @@ export default defineConfig(({ mode }) => {
       port: 3000,
     },
     define: {
-      'process.env.DATABASE_URL': JSON.stringify(env.DATABASE_URL),
+      "process.env.DATABASE_URL": JSON.stringify(env.DATABASE_URL),
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
     },
   };
 });
