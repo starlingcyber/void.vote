@@ -89,7 +89,16 @@ export const useVote = (
     } catch (error: unknown) {
       console.error("Error in vote submission:", error);
       if (error instanceof Error) {
-        toast.error(`Failed to submit vote: ${error.message}`, { id: toastId });
+        let message = error.message;
+        let alreadyVoted = error.message.includes(
+          "was already used for voting on proposal",
+        );
+        if (alreadyVoted) {
+          message = `you have already voted on Proposal #${proposalId} using Account #${selectedAccount}`;
+        }
+        toast.error(`Failed to submit vote: ${message}`, {
+          id: toastId,
+        });
       } else {
         toast.error("Failed to submit vote: An unknown error occurred", {
           id: toastId,
