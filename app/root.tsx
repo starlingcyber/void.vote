@@ -8,23 +8,36 @@ import {
 import "./tailwind.css";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Header from "./components/Header";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="./favicon.png" rel="icon" sizes="80x80" type="image/png" />
-        <Meta />
-        <Links />
-      </head>
-      <body className="font-sans">
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link
+            href="./favicon.png"
+            rel="icon"
+            sizes="80x80"
+            type="image/png"
+          />
+          <Meta />
+          <Links />
+        </head>
+        <body className="font-sans">
+          <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+            <div className="max-w-4xl mx-auto my-1">
+              <Header />
+              {children}
+            </div>
+          </div>
+          <ScrollRestoration />
+          <Scripts />
+        </body>
+      </html>
+    </QueryClientProvider>
   );
 }
 
@@ -32,7 +45,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <Outlet />
       <Toaster
         position="bottom-right"
@@ -57,6 +70,6 @@ export default function App() {
           },
         }}
       />
-    </QueryClientProvider>
+    </>
   );
 }

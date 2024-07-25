@@ -438,7 +438,7 @@ function StakeButtonContent({
           buttonState === "SUBMITTING" ||
           balancesQuery.isLoading
         }
-        className={`px-4 py-2 rounded-md font-bold text-white transition-all duration-100 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-48 h-12 flex items-center justify-center text-2xl border-2 ${
+        className={`mx-5 px-4 py-2 rounded-md font-bold text-white transition-all duration-100 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-48 h-12 flex items-center justify-center text-2xl border-2 ${
           buttonState === "IDLE"
             ? "bg-amber-600 hover:bg-amber-700 focus:ring-amber-600 border-amber-400"
             : buttonState === "ERROR"

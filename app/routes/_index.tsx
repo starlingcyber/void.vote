@@ -34,40 +34,13 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
 export default function Index() {
   const { proposals } = useLoaderData() as { proposals: Proposal[] };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
-      <div className="max-w-4xl mx-auto my-1">
-        <h1 className="text-center text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-500">
-          Penumbra Governance
-        </h1>
-        <h2 className="text-center text-3xl font-bold mb-10">
-          <span className="text-teal-600">brought to you by</span>{" "}
-          <a
-            className="text-amber-400 underline"
-            href="https://starlingcyber.net"
-            target="_blank"
-          >
-            Starling Cybernetics
-          </a>
-        </h2>
-
-        <div className="mb-8 flex justify-center">
-          <ConnectButton />
-          <span className="mx-2"></span>
-          <StakeButton validatorAddress={VALIDATOR_ADDRESS} />
-        </div>
-        {/* <AppParameters /> */}
-
-        {proposals.length === 0 ? (
-          <p className="text-xl text-gray-400">No proposals found.</p>
-        ) : (
-          <ul className="space-y-6">
-            {proposals.map((proposal) => (
-              <ProposalView proposal={proposal} key={proposal.proposal_id} />
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+  return proposals.length === 0 ? (
+    <p className="text-xl text-gray-400">No proposals found.</p>
+  ) : (
+    <ul className="space-y-6">
+      {proposals.map((proposal) => (
+        <ProposalView proposal={proposal} key={proposal.proposal_id} />
+      ))}
+    </ul>
   );
 }
