@@ -44,7 +44,7 @@ const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
       return `${baseClass} bg-orange-500 hover:bg-orange-600 focus:ring-orange-500 border-orange-400`;
     case ButtonState.NotHydrated:
     case ButtonState.Connecting:
-      return `${baseClass} bg-blue-600 hover:bg-blue-700 border-blue-400 focus:ring-blue-600 cursor-not-allowed animate-pulse`;
+      return `${baseClass} bg-blue-600 hover:bg-blue-700 border-blue-400 focus:ring-blue-600 cursor-wait animate-pulse`;
     case ButtonState.ExtensionNotInstalled:
       return `${baseClass} bg-purple-600 hover:bg-purple-700 focus:ring-purple-600 border-purple-400`;
     default:
