@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import PraxOnly from "./PraxOnly";
 import { toast } from "react-hot-toast";
-import { AddressIndex } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
 import { BalancesResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb";
 
 // Utility functions
@@ -189,7 +188,7 @@ const StakeModal = ({
           <a
             href="https://starlingcyber.net"
             target="_blank"
-            className="underline text-amber-400"
+            className="underline text-amber-400 hover:text-amber-300"
           >
             Starling Cybernetics
           </a>

@@ -9,6 +9,7 @@ import "./tailwind.css";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -31,6 +32,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className="max-w-4xl mx-auto my-1">
               <Header />
               {children}
+              <Footer />
             </div>
           </div>
           <ScrollRestoration />

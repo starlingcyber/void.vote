@@ -4,16 +4,13 @@ import { json } from "@remix-run/node";
 import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
 import { getProposals, tallyVotes } from "~/db.server";
-import ConnectButton from "~/components/ConnectButton";
-import StakeButton from "~/components/StakeButton";
-import { VALIDATOR_ADDRESS } from "~/constants";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Penumbra Governance Proposals" },
+    { title: "void.vote | Penumbra Governance" },
     {
       name: "description",
-      content: "View and discuss Penumbra Governance Proposals",
+      content: "View and vote on Penumbra governance proposals",
     },
   ];
 };
@@ -35,7 +32,9 @@ export default function Index() {
   const { proposals } = useLoaderData() as { proposals: Proposal[] };
 
   return proposals.length === 0 ? (
-    <p className="text-xl text-gray-400">No proposals found.</p>
+    <p className="mt-20 p-4 text-center font-semibold text-2xl text-gray-400 bg-slate-800 rounded">
+      No governance proposals have yet been submitted.
+    </p>
   ) : (
     <ul className="space-y-6">
       {proposals.map((proposal) => (
