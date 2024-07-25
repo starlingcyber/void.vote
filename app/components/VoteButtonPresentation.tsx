@@ -36,7 +36,7 @@ const getVoteButtonClass = (vote: string, state: VoteButtonState) => {
   if (state === VoteButtonState.LOADING) {
     colorClass = "bg-gray-300 border-gray-400 cursor-not-allowed";
   } else if (state === VoteButtonState.SUBMITTING) {
-    colorClass = `${colorClass} cursor-not-allowed`;
+    colorClass = `${colorClass} cursor-wait`;
     animationClass = "animate-pulse";
   } else if (state === VoteButtonState.ERROR) {
     // colorClass =

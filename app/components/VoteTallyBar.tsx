@@ -30,7 +30,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
 
   return (
     <div className="w-full p-4 bg-gray-700 rounded-lg text-gray-300 text-lg">
-      <div className="relative h-8 flex rounded-full overflow-hidden">
+      <div className="relative h-8 flex rounded-full overflow-hidden cursor-help">
         <div
           className="bg-green-500 h-full"
           style={{ width: `${yesPercentage}%` }}
@@ -55,7 +55,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
           {hoveredSection === "yes" && (
             <span className="">
               <span className="font-bold text-green-400">Yes:</span>{" "}
-              <span className="font-bold text-slate-300">
+              <span className="font-semibold text-slate-300">
                 {formatVotes(yes)} UM
               </span>{" "}
               ({formatPercentage(yesPercentage)}%)
@@ -64,7 +64,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
           {hoveredSection === "no" && (
             <span className="">
               <span className="font-bold text-red-400">No:</span>{" "}
-              <span className="font-bold text-slate-300">
+              <span className="font-semibold text-slate-300">
                 {formatVotes(no)} UM
               </span>{" "}
               ({formatPercentage(noPercentage)}%)
@@ -73,7 +73,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
           {hoveredSection === "abstain" && (
             <span className="">
               <span className="font-bold text-slate-100">Abstain:</span>{" "}
-              <span className="font-bold text-slate-300">
+              <span className="font-semibold text-slate-300">
                 {formatVotes(abstain)} UM
               </span>{" "}
               ({formatPercentage(abstainPercentage)}%)

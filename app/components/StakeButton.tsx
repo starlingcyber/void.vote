@@ -154,7 +154,7 @@ const StakeModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
       onClick={onClose}
     >
       <div
@@ -438,11 +438,13 @@ function StakeButtonContent({
           balancesQuery.isLoading
         }
         className={`mx-5 px-4 py-2 rounded-md font-bold text-white transition-all duration-100 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-48 h-12 flex items-center justify-center text-2xl border-2 ${
-          buttonState === "IDLE"
+          buttonState === "IDLE" || buttonState === "ERROR"
             ? "bg-amber-600 hover:bg-amber-700 focus:ring-amber-600 border-amber-400"
-            : buttonState === "ERROR"
-              ? "bg-amber-600 hover:bg-amber-700 focus:ring-amber-600 border-amber-400"
-              : "bg-gray-700 border-gray-600 cursor-not-allowed"
+            : buttonState === "SUBMITTING"
+              ? "bg-amber-600 hover:bg-amber-700 focus:ring-amber-600 border-amber-400 cursor-wait animate-pulse"
+              : buttonState === "LOADING"
+                ? "bg-gray-700 border-gray-600 cursor-not-allowed"
+                : ""
         }`}
       >
         📈 Stake
