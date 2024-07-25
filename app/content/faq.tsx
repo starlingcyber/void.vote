@@ -10,11 +10,10 @@ export const faqItems = [
         <FAQLink href="/">
           <code>void.vote</code>
         </FAQLink>
-        , is a frontend interface to{" "}
-        <FAQLink href="https://penumbra.zone">Penumbra</FAQLink>'s on-chain
-        governance system, allowing Penumbra stakeholders to view and vote on
-        governance proposals from the comfort of their web browser. It is
-        maintained by{" "}
+        , allows <FAQLink href="https://penumbra.zone">Penumbra</FAQLink>{" "}
+        stakeholders to view and vote on governance proposals from the comfort
+        of their web browsers. It is a frontend interface to Penumbra's on-chain
+        governance system, and is maintained by{" "}
         <FAQLink href="https://starlingcyber.net">Starling Cybernetics</FAQLink>
         , an active validator on the Penumbra network.
       </>
