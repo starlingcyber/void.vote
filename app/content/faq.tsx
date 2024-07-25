@@ -29,9 +29,9 @@ export const faqItems = [
         proof of stake blockchain allowing anyone to transact, stake, trade, and
         vote with privacy. Penumbra's on-chain governance system is the
         consensus decision-making process that permits anyone staking any amount
-        of Penumbra's native staking token ($UM) to vote on governance
-        proposals, with their vote holding a power proportionate to the value of
-        their stake.
+        of Penumbra's native staking token ($UM) to vote on governance proposals
+        that determine the future behavior of the blockchain. Each delegator's
+        vote holds a power proportionate to the value of their stake.
       </>
     ),
   },
@@ -44,6 +44,10 @@ export const faqItems = [
         blockchains such as those built on the Cosmos SDK. Key points of
         difference:
         <ul className="my-3 ml-8 list-disc list-outside space-y-2">
+          <li>
+            Delegator votes are private. Nobody can see how you vote, not even
+            the validator with whom you stake your tokens.
+          </li>
           <li>
             All votes are final once cast. This applies to validators as well as
             delegators.
