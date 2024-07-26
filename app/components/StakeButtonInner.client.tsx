@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { toast } from "react-hot-toast";
+import { motion, AnimatePresence } from "framer-motion";
 import { BalancesResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb";
 import useStake from "~/hooks.client/useStake";
 import useBalances from "~/hooks.client/useBalances";
@@ -153,118 +154,130 @@ const StakeModal = ({
   inputAccount: number;
   onInputAccountChange: (inputValue: number) => void;
 }) => {
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <div
-        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-3xl relative"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close button */}
-        <button
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 rounded-full p-1"
-          aria-label="Close dialog"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-3xl relative"
+            onClick={(e) => e.stopPropagation()}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        <h2 className="text-3xl mb-6 font-bold text-teal-400">
-          Stake with{" "}
-          <a
-            href="https://starlingcyber.net"
-            target="_blank"
-            className="underline text-amber-400 hover:text-amber-300"
-          >
-            Starling Cybernetics
-          </a>
-        </h2>
-        <p className="text-xl mb-8 text-gray-400">
-          <ul className="mt-2 list-disc pl-8 space-y-1 text-slate-400">
-            <li>Earn staking rewards</li>
-            <li>Vote on governance proposals</li>
-            <li>Secure the Penumbra network</li>
-            <li>Support this website and other public goods</li>
-          </ul>
-        </p>
-
-        <div className="grid grid-cols-2 gap-6 mt-8 mb-6">
-          <div>
-            <label
-              htmlFor="account"
-              className="block text-gray-300 mb-2 font-semibold"
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 rounded-full p-1"
+              aria-label="Close dialog"
             >
-              Select Account
-            </label>
-            <AccountSelector
-              account={inputAccount}
-              onAccountChange={onAccountChange}
-              availableAccounts={availableAccounts}
-              onInputChange={onInputAccountChange}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="amount"
-              className="block text-gray-300 mb-2 font-semibold"
-            >
-              Stake Amount (UM)
-            </label>
-            <AmountInput
-              amount={amount}
-              onChange={onAmountChange}
-              onBlur={onAmountBlur}
-              onSetMax={onSetMaxAmount}
-            />
-          </div>
-        </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
 
-        <div className="bg-gray-700 rounded-lg px-4 py-3 mb-8">
-          <p className="text-gray-300 font-semibold text-lg">
-            Account Balance:{" "}
-            <span className="text-teal-400 ml-2">{maxAmount} UM</span>
-          </p>
-        </div>
+            <h2 className="text-3xl mb-6 font-bold text-teal-400">
+              Stake with{" "}
+              <a
+                href="https://starlingcyber.net"
+                target="_blank"
+                className="underline text-amber-400 hover:text-amber-300"
+              >
+                Starling Cybernetics
+              </a>
+            </h2>
+            <p className="text-xl mb-8 text-gray-400">
+              <ul className="mt-2 list-disc pl-8 space-y-1 text-slate-400">
+                <li>Earn staking rewards</li>
+                <li>Vote on governance proposals</li>
+                <li>Secure the Penumbra network</li>
+                <li>Support this website and other public goods</li>
+              </ul>
+            </p>
 
-        {isLoading && (
-          <p className="text-yellow-400 mb-4">Loading balance...</p>
-        )}
-        {isError && <p className="text-red-400 mb-4">Error loading balance</p>}
+            <div className="grid grid-cols-2 gap-6 mt-8 mb-6">
+              <div>
+                <label
+                  htmlFor="account"
+                  className="block text-gray-300 mb-2 font-semibold"
+                >
+                  Select Account
+                </label>
+                <AccountSelector
+                  account={inputAccount}
+                  onAccountChange={onAccountChange}
+                  availableAccounts={availableAccounts}
+                  onInputChange={onInputAccountChange}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="amount"
+                  className="block text-gray-300 mb-2 font-semibold"
+                >
+                  Stake Amount (UM)
+                </label>
+                <AmountInput
+                  amount={amount}
+                  onChange={onAmountChange}
+                  onBlur={onAmountBlur}
+                  onSetMax={onSetMaxAmount}
+                />
+              </div>
+            </div>
 
-        <div className="flex justify-end space-x-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 font-semibold text-xl"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onStake}
-            disabled={isLoading || isError}
-            className="px-5 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 border-2 border-amber-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold text-xl"
-          >
-            Stake
-          </button>
-        </div>
-      </div>
-    </div>
+            <div className="bg-gray-700 rounded-lg px-4 py-3 mb-8">
+              <p className="text-gray-300 font-semibold text-lg">
+                Account Balance:{" "}
+                <span className="text-teal-400 ml-2">{maxAmount} UM</span>
+              </p>
+            </div>
+
+            {isLoading && (
+              <p className="text-yellow-400 mb-4">Loading balance...</p>
+            )}
+            {isError && (
+              <p className="text-red-400 mb-4">Error loading balance</p>
+            )}
+
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 font-semibold text-xl"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onStake}
+                disabled={isLoading || isError}
+                className="px-5 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 border-2 border-amber-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold text-xl"
+              >
+                Stake
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
