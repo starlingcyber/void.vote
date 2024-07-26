@@ -1,5 +1,6 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "@remix-run/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface FAQProps {
   faqItems: { id: string; question: string; answer: ReactNode }[];
@@ -18,7 +19,7 @@ export default function FAQ({ faqItems }: FAQProps) {
     } else {
       setOpenItemIndex(null);
     }
-  }, [location.hash]);
+  }, [location.hash, faqItems]);
 
   const isOpen = location.hash.startsWith("#faq");
 
@@ -121,10 +122,10 @@ const FAQItem: React.FC<FAQItemProps> = ({
       >
         <h3 className="text-2xl font-semibold text-orange-400 flex justify-between items-center">
           {question}
-          <svg
-            className={`w-6 h-6 transform transition-transform duration-200 ${
-              isOpen ? "rotate-180" : ""
-            }`}
+          <motion.svg
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.15 }}
+            className="w-6 h-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -135,12 +136,27 @@ const FAQItem: React.FC<FAQItemProps> = ({
               strokeWidth={2}
               d="M19 9l-7 7-7-7"
             />
-          </svg>
+          </motion.svg>
         </h3>
       </button>
-      {isOpen && (
-        <div className="text-gray-300 text-xl mt-2 pl-2 pr-8">{children}</div>
-      )}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: "auto" },
+              collapsed: { opacity: 0, height: 0 },
+            }}
+            transition={{ duration: 0.15, ease: [0.04, 0.62, 0.23, 0.98] }}
+          >
+            <div className="text-gray-300 text-xl mt-2 pl-2 pr-8">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
