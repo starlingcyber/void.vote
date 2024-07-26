@@ -15,15 +15,11 @@ export default function VotingPower({ proposalId }: { proposalId: bigint }) {
           const powers = data as AccountVotingPower[];
 
           if (isLoading) {
-            return <span>Loading voting power...</span>;
+            return null;
           }
 
           if (error) {
-            return <span>Error loading voting power: {error.message}</span>;
-          }
-
-          if (data === undefined) {
-            return <span>No voting power data available</span>;
+            console.log("Error loading voting power", error);
           }
 
           // Format the voting power as a string with commas for readability

@@ -31,8 +31,8 @@ export default function VoteButtons({
             error,
           } = useVotingPower.default(proposalId);
 
-          if (isLoading) return <p>Loading voting power...</p>;
-          if (error) return <p>Error loading voting power</p>;
+          if (isLoading) return null;
+          if (error) console.log("Error loading voting power", error);
 
           if (votingPower === undefined || votingPower == 0) {
             return (
