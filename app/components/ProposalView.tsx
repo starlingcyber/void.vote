@@ -52,6 +52,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
   const serializedPayload = serializeBigInt(proposal.payload);
   const stateClass = getProposalStateClass(proposal.state);
   const stateText = getProposalStateText(proposal.state);
+  const active: boolean = proposal.state.voting || false;
 
   useEffect(() => {
     import("@microlink/react-json-view").then((module) => {
@@ -181,21 +182,22 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
           </div>
         )}
 
-        {proposal.state.voting ? (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-2 text-gray-300">Voting</h3>
-            <div className="bg-gray-700 rounded-lg pl-3 pr-3 pt-3 pb-3">
-              <VoteButtons proposalId={BigInt(proposal.proposal_id)} />
-            </div>
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-2 text-gray-300">Voting</h3>
+          <div className="bg-gray-700 rounded-lg pl-3 pr-3 pt-3 pb-3">
+            <VoteButtons
+              active={active}
+              proposalId={BigInt(proposal.proposal_id)}
+            />
           </div>
-        ) : null}
+        </div>
 
         {proposal.tally && (
           <div className="mt-6">
             <h3 className="text-xl font-semibold mb-2 text-gray-300">
               Vote Tally
             </h3>
-            <VoteTallyBar {...proposal.tally} />
+            <VoteTallyBar active={active} {...proposal.tally} />
           </div>
         )}
       </div>

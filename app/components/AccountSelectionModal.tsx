@@ -53,7 +53,7 @@ export default function AccountSelectionModal({
           Select Account to Vote <VotePill vote={vote} />
         </h2>
         <p className="text-xl text-gray-400">
-          You have delegations in more than one account.
+          You have delegations in {accountVotingPowers.length} accounts.
         </p>
         <p className="text-xl mb-6 text-gray-400">
           You may vote using each of your accounts below:

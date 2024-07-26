@@ -5,9 +5,15 @@ type VoteTallyBarProps = {
   yes: number;
   no: number;
   abstain: number;
+  active: boolean;
 };
 
-const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
+const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
+  yes,
+  no,
+  abstain,
+  active,
+}) => {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
   const total = (yes + no + abstain) / 100;
@@ -23,7 +29,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({ yes, no, abstain }) => {
   if (total == 0) {
     return (
       <div className="w-full text-center py-4 bg-gray-700 rounded-lg text-gray-400 text-xl">
-        No votes have been cast.
+        No votes {active ? "have been yet" : "were"} cast on this proposal.
       </div>
     );
   }
