@@ -157,7 +157,10 @@ const StakeModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+      className="inset-0 fixed bg-black bg-opacity-70 flex items-center justify-center z-50"
+      style={{
+        transform: "scale(1.1)",
+      }}
       onClick={onClose}
     >
       <div
