@@ -5,7 +5,7 @@ import { VALIDATOR_ADDRESS } from "~/constants";
 const StakingInfoPanel: React.FC = () => {
   return (
     <div className="bg-gray-800 rounded-lg shadow-lg p-6 mb-8 border-2 border-teal-600">
-      <h3 className="text-3xl font-bold mb-6 text-teal-400">
+      <h3 className="text-3xl font-bold mb-7 text-teal-400">
         Stake $UM to Vote on Penumbra
       </h3>
       <div className="text-gray-300 text-xl space-y-5 mb-8">
