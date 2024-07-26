@@ -1,6 +1,5 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "@remix-run/react";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface FAQProps {
   faqItems: { id: string; question: string; answer: ReactNode }[];
@@ -19,7 +18,7 @@ export default function FAQ({ faqItems }: FAQProps) {
     } else {
       setOpenItemIndex(null);
     }
-  }, [location.hash, faqItems]);
+  }, [location.hash]);
 
   const isOpen = location.hash.startsWith("#faq");
 
@@ -34,19 +33,11 @@ export default function FAQ({ faqItems }: FAQProps) {
   if (!isOpen) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.15 }}
+    <div
       className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.15 }}
+      <div
         className="bg-gray-800 rounded-lg border-2 border-teal-400 shadow-lg w-full max-w-6xl relative flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -104,8 +95,8 @@ export default function FAQ({ faqItems }: FAQProps) {
             </button>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -130,10 +121,10 @@ const FAQItem: React.FC<FAQItemProps> = ({
       >
         <h3 className="text-2xl font-semibold text-orange-400 flex justify-between items-center">
           {question}
-          <motion.svg
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.15 }}
-            className="w-6 h-6"
+          <svg
+            className={`w-6 h-6 transform transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -144,22 +135,12 @@ const FAQItem: React.FC<FAQItemProps> = ({
               strokeWidth={2}
               d="M19 9l-7 7-7-7"
             />
-          </motion.svg>
+          </svg>
         </h3>
       </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.15 }}
-            className="text-gray-300 text-xl mt-2 pl-2 pr-8 overflow-hidden"
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isOpen && (
+        <div className="text-gray-300 text-xl mt-2 pl-2 pr-8">{children}</div>
+      )}
     </div>
   );
 };
