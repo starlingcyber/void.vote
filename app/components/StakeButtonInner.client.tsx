@@ -403,7 +403,7 @@ export default function StakeButtonInner({
   const handleStakeClick = useCallback(() => {
     if (!isPraxInstalled()) {
       toast.error(
-        "Prax Wallet is not yet installed in your browser: try again after installing it.",
+        "Prax Wallet is not yet installed in your browser: try staking again after installing it.",
         { id: "connect" },
       );
       return;

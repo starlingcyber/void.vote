@@ -41,14 +41,15 @@ const getButtonClass = (state: ButtonState, isHovering: boolean): string => {
     case ButtonState.Connected:
       return `${baseClass} ${isHovering ? "bg-red-600 hover:bg-red-700 border-red-400" : "bg-blue-600 hover:bg-blue-700 border-blue-400"} focus:ring-blue-600`;
     case ButtonState.Error:
-      return `${baseClass} bg-orange-500 hover:bg-orange-600 focus:ring-orange-500 border-orange-400`;
+      return `${baseClass} bg-red-500 hover:bg-red-600 focus:ring-red-500 border-red-300`;
     case ButtonState.NotHydrated:
     case ButtonState.Connecting:
       return `${baseClass} bg-blue-600 hover:bg-blue-700 border-blue-400 focus:ring-blue-600 cursor-wait animate-pulse`;
-    case ButtonState.ExtensionNotInstalled:
-      return `${baseClass} bg-purple-600 hover:bg-purple-700 focus:ring-purple-600 border-purple-400`;
+    // case ButtonState.ExtensionNotInstalled:
     default:
-      return `${baseClass} bg-teal-600 hover:bg-teal-700 focus:ring-teal-600 border-teal-400`;
+      return `${baseClass} bg-purple-700 hover:bg-purple-800 focus:ring-purple-600 border-purple-400`;
+    // default:
+    //   return `${baseClass} bg-teal-600 hover:bg-teal-700 focus:ring-teal-600 border-teal-400`;
   }
 };
 
@@ -57,9 +58,9 @@ const getButtonIcon = (state: ButtonState, isHovering: boolean): string => {
     case ButtonState.Connected:
       return isHovering ? "⛓️‍💥 " : "🔗 ";
     case ButtonState.Error:
-      return "⟳ ";
+      return "↪ ";
     case ButtonState.ExtensionNotInstalled:
-      return "";
+      return "📥 ";
     default:
       return "🔗 ";
   }
