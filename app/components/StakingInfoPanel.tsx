@@ -39,7 +39,7 @@ const StakingInfoPanel: React.FC = () => {
           Stake Now
         </StakeButton>
         <a
-          href="#faq"
+          href="#faq/how-to-stake"
           className="text-teal-400 hover:text-teal-300 underline text-xl"
         >
           Learn More
