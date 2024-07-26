@@ -15,7 +15,7 @@ enum ButtonState {
   Error,
 }
 
-const isPraxInstalled = (): boolean => {
+export const isPraxInstalled = (): boolean => {
   return !!window[PenumbraSymbol]?.[PRAX_ORIGIN];
 };
 

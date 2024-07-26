@@ -9,6 +9,7 @@ import useBalances from "~/hooks.client/useBalances";
 import useStakeService from "~/hooks.client/useStakeService";
 import StakeButtonPresentation from "./StakeButtonPresentation";
 import { useStore } from "~/state.client";
+import { isPraxInstalled } from "./ConnectButtonInner.client";
 
 // Utility functions
 const formatAmount = (amount: bigint): string =>
@@ -400,6 +401,13 @@ export default function StakeButtonInner({
   }, [amount, balance, handleStakeSubmit, balancesQuery]);
 
   const handleStakeClick = useCallback(() => {
+    if (!isPraxInstalled()) {
+      toast.error(
+        "Prax Wallet is not yet installed in your browser: try again after installing it.",
+        { id: "connect" },
+      );
+      return;
+    }
     if (!connected) {
       requestConnection()
         .then(() => {
