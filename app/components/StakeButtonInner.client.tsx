@@ -200,11 +200,15 @@ const StakeModal = ({
           </a>
         </h2>
         <p className="text-xl mb-8 text-gray-400">
-          By staking with us, you can earn rewards, help secure the Penumbra
-          network, and support our work building tools like this.
+          <ul className="mt-2 list-disc pl-8 space-y-1 text-slate-400">
+            <li>Earn staking rewards</li>
+            <li>Vote on governance proposals</li>
+            <li>Secure the Penumbra network</li>
+            <li>Support this website and other public goods</li>
+          </ul>
         </p>
 
-        <div className="grid grid-cols-2 gap-6 mt-6 mb-6">
+        <div className="grid grid-cols-2 gap-6 mt-8 mb-6">
           <div>
             <label
               htmlFor="account"
