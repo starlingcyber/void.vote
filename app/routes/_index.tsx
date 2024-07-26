@@ -4,6 +4,7 @@ import { json } from "@remix-run/node";
 import type { Proposal } from "~/types/Proposal";
 import ProposalView from "~/components/ProposalView";
 import { getProposals, tallyVotes } from "~/db.server";
+import StakingInfoPanel from "~/components/StakingInfoPanel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -32,15 +33,20 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
 export default function Index() {
   const { proposals } = useLoaderData() as { proposals: Proposal[] };
 
-  return proposals.length === 0 ? (
-    <p className="mt-20 p-4 text-center font-semibold text-2xl text-gray-400 bg-slate-800 rounded">
-      No governance proposals have yet been submitted.
-    </p>
-  ) : (
-    <ul className="space-y-6">
-      {proposals.map((proposal) => (
-        <ProposalView proposal={proposal} key={proposal.proposal_id} />
-      ))}
-    </ul>
+  return (
+    <>
+      <StakingInfoPanel />
+      {proposals.length === 0 ? (
+        <p className="mt-20 p-4 text-center font-semibold text-2xl text-gray-400 bg-slate-800 rounded">
+          No governance proposals have yet been submitted.
+        </p>
+      ) : (
+        <ul className="space-y-6">
+          {proposals.map((proposal) => (
+            <ProposalView proposal={proposal} key={proposal.proposal_id} />
+          ))}
+        </ul>
+      )}
+    </>
   );
 }

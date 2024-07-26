@@ -7,15 +7,16 @@ export interface StakeButtonPresentationProps {
 }
 
 export default function StakeButtonPresentation({
+  children,
   onClick,
   disabled,
   buttonState,
-}: StakeButtonPresentationProps): JSX.Element {
+}: StakeButtonPresentationProps & { children: React.ReactNode }) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`mx-5 px-4 py-2 rounded-md font-bold text-white transition-all duration-100 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-48 h-12 flex items-center justify-center text-2xl border-2 ${
+      className={`px-4 py-2 rounded-md font-bold text-white transition-all duration-100 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-44 h-12 flex items-center justify-center text-2xl border-2 ${
         buttonState === "IDLE" || buttonState === "ERROR"
           ? "bg-amber-600 hover:bg-amber-700 focus:ring-amber-600 border-amber-400"
           : buttonState === "SUBMITTING"
@@ -25,7 +26,7 @@ export default function StakeButtonPresentation({
               : ""
       }`}
     >
-      📈 Stake
+      {children}
     </button>
   );
 }

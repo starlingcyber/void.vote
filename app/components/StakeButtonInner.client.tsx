@@ -1,12 +1,8 @@
 import React, { useState, useMemo, useCallback } from "react";
-import PraxOnly from "./PraxOnly";
 import { toast } from "react-hot-toast";
 import { BalancesResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb";
-import { ClientOnly } from "remix-utils/client-only";
 import useStake from "~/hooks.client/useStake";
-import useView from "~/hooks.client/useView";
 import useBalances from "~/hooks.client/useBalances";
-import useStakeService from "~/hooks.client/useStakeService";
 import StakeButtonPresentation from "./StakeButtonPresentation";
 import { useStore } from "~/state.client";
 import { isPraxInstalled } from "./ConnectButtonInner.client";
@@ -274,8 +270,10 @@ const StakeModal = ({
 
 export default function StakeButtonInner({
   validatorAddress,
+  children,
 }: {
   validatorAddress: string;
+  children: React.ReactNode;
 }) {
   const [showModal, setShowModal] = useState(false);
   const [amount, setAmount] = useState("");
@@ -434,7 +432,9 @@ export default function StakeButtonInner({
           balancesQuery.isLoading
         }
         buttonState={buttonState}
-      />
+      >
+        {children}
+      </StakeButtonPresentation>
 
       <StakeModal
         isOpen={showModal}

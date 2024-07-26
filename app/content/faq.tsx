@@ -11,10 +11,67 @@ export const faqItems = [
           <code>void.vote</code>
         </FAQLink>
         , allows <FAQLink href="https://penumbra.zone">Penumbra</FAQLink>{" "}
-        stakeholders to view and vote on governance proposals from the comfort
-        of their web browsers. It is maintained by{" "}
+        stakeholders to view and vote on Penumbra's on-chain governance
+        proposals from the comfort of their web browsers. It is maintained by{" "}
         <FAQLink href="https://starlingcyber.net">Starling Cybernetics</FAQLink>
         , an active validator on the Penumbra network.
+      </>
+    ),
+  },
+  {
+    id: "how-to-vote",
+    question: "How do I vote?",
+    answer: (
+      <>
+        To vote on a Penumbra governance proposal, follow these steps:
+        <ol className="my-3 ml-8 list-decimal list-outside space-y-2">
+          <li>
+            Connect this site to{" "}
+            <FAQLink href="https://praxwallet.com">Prax Wallet</FAQLink>, the
+            browser extension wallet for Penumbra, by pressing the "Connect
+            Wallet" button at the top of the page.
+          </li>
+          <li>
+            After connecting your wallet, each proposal for which you are
+            eligible to vote will display YES, NO, and ABSTAIN buttons to submit
+            your vote.
+          </li>
+          <li>
+            To cast your vote, click the button corresponding to the vote you
+            want to cast, review the transaction popup from Prax Wallet, and if
+            you are satisfied, approve the transaction.
+          </li>
+        </ol>
+        You are only eligible to vote on proposals which were submitted to the
+        network during a time period when you were staking.
+      </>
+    ),
+  },
+  {
+    id: "how-to-stake",
+    question: "How do I stake?",
+    answer: (
+      <>
+        To become eligible to vote on governance proposals, you must stake $UM
+        tokens to a validator. Here's how:
+        <ol className="my-3 ml-8 list-decimal list-outside space-y-2">
+          <li>
+            Make sure you have installed{" "}
+            <FAQLink href="https://praxwallet.com">Prax Wallet</FAQLink>, the
+            browser extension wallet for Penumbra.
+          </li>
+          <li>
+            You can then stake $UM by pressing the "Stake" button at the top of
+            the page.
+          </li>
+          <li>
+            Select the amount you wish to stake, then click "Stake". Review the
+            transaction popup from Prax Wallet, and if you are satisfied,
+            approve the transaction.
+          </li>
+        </ol>
+        After staking, you will become immediately eligible to vote on future
+        governance proposals.
       </>
     ),
   },
@@ -59,35 +116,6 @@ export const faqItems = [
             burned. This is done to deter spam proposals.
           </li>
         </ul>
-      </>
-    ),
-  },
-  {
-    id: "how-to-vote",
-    question: "How do I vote?",
-    answer: (
-      <>
-        To vote, you must first connect this site to{" "}
-        <FAQLink href="https://praxwallet.com">Prax Wallet</FAQLink>, the
-        browser extension wallet for Penumbra, by pressing the "Connect Wallet"
-        button at the top of the page. Once you have done this, any proposal for
-        which you are eligible to vote will display buttons to submit your vote.
-        You are only eligible to vote on proposals which were submitted to the
-        network during a time period when you were staking.
-      </>
-    ),
-  },
-  {
-    id: "how-to-stake",
-    question: "How do I stake?",
-    answer: (
-      <>
-        To be eligible to vote on governance proposals, you must stake $UM
-        tokens to a validator. Once you have installed{" "}
-        <FAQLink href="https://praxwallet.com">Prax Wallet</FAQLink>, the
-        browser extension wallet for Penumbra, you can stake by clicking the
-        "Stake" button at the top of this page. You will then become immediately
-        eligible to vote on any future governance proposals.
       </>
     ),
   },
@@ -152,8 +180,7 @@ export const faqItems = [
     question: "How can I support this site?",
     answer: (
       <>
-        If you would like to support the development and maintenance of this
-        site, you may do so by staking with{" "}
+        To support the development of this site, stake with{" "}
         <FAQLink href="https://starlingcyber.net">Starling Cybernetics</FAQLink>{" "}
         by clicking the "Stake" button on the home page. Your support as a
         delegator &ndash; in addition to earning you rewards and empowering you

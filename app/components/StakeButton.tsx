@@ -3,8 +3,10 @@ import StakeButtonInner from "./StakeButtonInner.client";
 import StakeButtonPresentation from "./StakeButtonPresentation";
 
 export default function StakeButton({
+  children,
   validatorAddress,
 }: {
+  children: React.ReactNode;
   validatorAddress: string;
 }) {
   return (
@@ -14,10 +16,16 @@ export default function StakeButton({
           onClick={() => {}}
           disabled={true}
           buttonState="IDLE"
-        />
+        >
+          {children}
+        </StakeButtonPresentation>
       }
     >
-      {() => <StakeButtonInner validatorAddress={validatorAddress} />}
+      {() => (
+        <StakeButtonInner validatorAddress={validatorAddress}>
+          {children}
+        </StakeButtonInner>
+      )}
     </ClientOnly>
   );
 }
