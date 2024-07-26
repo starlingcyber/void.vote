@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { PromiseClient } from "@connectrpc/connect";
 import { StakeService, ViewService } from "@penumbra-zone/protobuf";
 import { FeeTier_Tier } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/component/fee/v1/fee_pb";
 import { submitTransaction } from "./submit";
+import { AllSlices, useStore } from "~/state.client";
 import {
   AddressIndex,
   IdentityKey,
@@ -51,15 +52,14 @@ async function planStake(
   return plan.plan;
 }
 
-export const useStake = (
-  view: PromiseClient<typeof ViewService>,
-  stake: PromiseClient<typeof StakeService>,
-  validatorAddress: string,
-) => {
+export const useStake = (validatorAddress: string) => {
   const [buttonState, setButtonState] = useState<StakeButtonState>(
     StakeButtonState.IDLE,
   );
   const [account, setAccount] = useState<number>(0);
+  const { viewClient, stakeQueryClient } = useStore(
+    (state: AllSlices) => state.prax,
+  );
 
   const handleStakeSubmit = useCallback(
     async (amount: bigint) => {
@@ -68,6 +68,8 @@ export const useStake = (
 
       try {
         toast.loading("Planning stake transaction...", { id: toastId });
+        const view = await viewClient();
+        const stake = await stakeQueryClient();
         const plan = await planStake(
           view,
           stake,
@@ -100,7 +102,7 @@ export const useStake = (
         setButtonState(StakeButtonState.ERROR);
       }
     },
-    [view, stake, validatorAddress, account],
+    [validatorAddress, account],
   );
 
   return {
