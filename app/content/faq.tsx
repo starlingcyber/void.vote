@@ -12,8 +12,7 @@ export const faqItems = [
         </FAQLink>
         , allows <FAQLink href="https://penumbra.zone">Penumbra</FAQLink>{" "}
         stakeholders to view and vote on governance proposals from the comfort
-        of their web browsers. It is a frontend interface to Penumbra's on-chain
-        governance system, and is maintained by{" "}
+        of their web browsers. It is maintained by{" "}
         <FAQLink href="https://starlingcyber.net">Starling Cybernetics</FAQLink>
         , an active validator on the Penumbra network.
       </>
@@ -26,11 +25,10 @@ export const faqItems = [
       <>
         <FAQLink href="https://penumbra.zone">Penumbra</FAQLink> is a shielded
         proof of stake blockchain allowing anyone to transact, stake, trade, and
-        vote with privacy. Penumbra's on-chain governance system is the
-        consensus decision-making process that permits anyone staking any amount
-        of Penumbra's native staking token ($UM) to vote on governance proposals
-        that determine the future behavior of the blockchain. Each delegator's
-        vote holds a power proportionate to the value of their stake.
+        vote with privacy. It features an on-chain governance system permitting
+        anyone staking its token $UM to vote on governance proposals that
+        determine the future of the blockchain. Each delegator's vote holds a
+        power proportionate to the value of their stake.
       </>
     ),
   },
@@ -66,14 +64,30 @@ export const faqItems = [
   },
   {
     id: "how-to-vote",
-    question: "How can I vote?",
+    question: "How do I vote?",
     answer: (
       <>
         To vote, you must first connect this site to{" "}
         <FAQLink href="https://praxwallet.com">Prax Wallet</FAQLink>, the
-        browser extension wallet for Penumbra by pressing the "Connect Wallet"
+        browser extension wallet for Penumbra, by pressing the "Connect Wallet"
         button at the top of the page. Once you have done this, any proposal for
         which you are eligible to vote will display buttons to submit your vote.
+        You are only eligible to vote on proposals which were submitted to the
+        network during a time period when you were staking.
+      </>
+    ),
+  },
+  {
+    id: "how-to-stake",
+    question: "How do I stake?",
+    answer: (
+      <>
+        To be eligible to vote on governance proposals, you must stake $UM
+        tokens to a validator. Once you have installed{" "}
+        <FAQLink href="https://praxwallet.com">Prax Wallet</FAQLink>, the
+        browser extension wallet for Penumbra, you can stake by clicking the
+        "Stake" button at the top of this page. You will then become immediately
+        eligible to vote on any future governance proposals.
       </>
     ),
   },
@@ -88,9 +102,8 @@ export const faqItems = [
         <ul className="my-3 ml-8 list-disc list-outside space-y-2">
           <li>
             <b>You are not eligible to vote on the proposal:</b> In order to be
-            eligible to vote on a proposal, you must have staked $UM tokens to
-            some validator <i>before</i> the proposal was submitted to the
-            network.
+            eligible to vote on a proposal, you must have staked <i>before</i>{" "}
+            the proposal was submitted to the network.
           </li>
           <li>
             <b>You have already voted on the proposal.</b> Votes cannot be
@@ -111,10 +124,10 @@ export const faqItems = [
     question: "Can validators use this site to vote?",
     answer: (
       <>
-        No, validators cannot use this site to vote, and this feature is not
-        planned. Validators must cast their votes using the command line wallet
-        interface, <code>pcli</code>. Further instructions on how to use this
-        tool may be found in the{" "}
+        No, validators cannot use this site to vote. Validators must cast their
+        votes using the Penumbra command line wallet interface,{" "}
+        <code>pcli</code>. Further instructions on how to use this tool may be
+        found in the{" "}
         <FAQLink href="https://guide.penumbra.zone">Penumbra Guide</FAQLink>.
       </>
     ),
@@ -124,12 +137,13 @@ export const faqItems = [
     question: "What information does this site collect?",
     answer: (
       <>
-        This site does not report identifiable user analytics. Information about
-        your account balance, transaction history, and voting behavior is never
-        transmitted to this site. Only the RPC provider you have selected in
-        your wallet can tell how you interact with the Penumbra network, and
-        because Penumbra itself protects your privacy, your RPC provider itself
-        has very limited visibility into your activity.
+        This site does not report user analytics. Information about your account
+        balance, transaction history, and voting behavior stays in your web
+        browser and is never collected by us. Only the RPC provider you have
+        selected in your wallet can tell how you interact with the Penumbra
+        network using this site, and because Penumbra itself protects your
+        privacy, your RPC provider itself cannot inspect the content of your
+        transactions.
       </>
     ),
   },
@@ -139,26 +153,34 @@ export const faqItems = [
     answer: (
       <>
         If you would like to support the development and maintenance of this
-        site, you may do so by delegating $UM tokens to{" "}
+        site, you may do so by staking with{" "}
         <FAQLink href="https://starlingcyber.net">Starling Cybernetics</FAQLink>{" "}
-        by clicking the "Stake" button on the home page. Your support in the
-        form of delegations helps us maintain this site and other community
+        by clicking the "Stake" button on the home page. Your support as a
+        delegator &ndash; in addition to earning you rewards and empowering you
+        to vote &ndash; helps us maintain this site and other community
         resources. Thank you!
       </>
     ),
   },
   {
-    id: "security-report",
-    question:
-      "I found a security vulnerability in this site. What should I do?",
+    id: "issue-report",
+    question: "I found an issue with this site. What should I do?",
     answer: (
       <>
-        If you have discovered a security vulnerability in this site, please
-        report it to us by emailing{" "}
+        If you believe you have found a security vulnerability in this site or
+        any other service provided by{" "}
+        <FAQLink href="https://starlingcyber.net">Starling Cybernetics</FAQLink>
+        , please email{" "}
         <FAQLink href="mailto:contact@starlingcyber.net">
           <code>contact@starlingcyber.net</code>
         </FAQLink>
-        . We will respond to your report as soon as possible.
+        . <b>Do not open GitHub issues about security vulnerabilities.</b> For
+        bug reports or feature requests which are not related to security,
+        please{" "}
+        <FAQLink href="https://github.com/starlingcyber/void.vote/issues/new">
+          open an issue
+        </FAQLink>{" "}
+        on the site's GitHub repository.
       </>
     ),
   },

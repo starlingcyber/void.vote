@@ -10,7 +10,8 @@ export const meta: MetaFunction = () => {
     { title: "void.vote | Penumbra Governance" },
     {
       name: "description",
-      content: "View and vote on Penumbra governance proposals",
+      content:
+        "View and vote on Penumbra governance proposals | by Starling Cybernetics",
     },
   ];
 };
