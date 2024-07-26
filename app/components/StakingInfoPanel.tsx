@@ -8,7 +8,7 @@ const StakingInfoPanel: React.FC = () => {
       <h3 className="text-3xl font-bold mb-7 text-teal-400">
         Stake $UM to Vote on Penumbra
       </h3>
-      <div className="text-gray-300 text-xl space-y-5 mb-9">
+      <div className="text-gray-300 text-xl space-y-5 mb-8">
         <p>
           <b className="text-orange-400">
             You need to stake $UM tokens to vote.
