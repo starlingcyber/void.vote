@@ -16,9 +16,9 @@ const Header: React.FC = () => {
       </h1>
       <h2 className="flex flex-col sm:flex-row justify-center items-center text-center text-3xl font-bold mb-10">
         <span className="text-teal-600 mb-2 sm:mb-0">brought to you by</span>
-        <span className="sm:ml-2">
+        <span className="sm:ml-3">
           <a
-            className="text-amber-400 hover:text-amber-300 underline"
+            className="text-amber-400 hover:text-amber-300"
             href="https://starlingcyber.net"
             target="_blank"
             rel="noopener noreferrer"
