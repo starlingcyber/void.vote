@@ -29,7 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Meta />
           <Links />
         </head>
-        <body className="font-sans min-w-[740px] bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+        <body className="font-sans min-w-[740px] bg-slate-900 text-white p-4 py-8">
           <div className="min-h-screen">
             <div className="max-w-4xl mx-auto my-1">
               <Header />
