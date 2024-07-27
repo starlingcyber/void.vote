@@ -28,7 +28,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
 
   if (total == 0) {
     return (
-      <div className="w-full text-center py-4 bg-gray-700 rounded-lg text-gray-400 text-xl">
+      <div className="w-full text-center py-4 font-semibold bg-gray-700 rounded-lg text-gray-400 text-xl">
         No votes {active ? "have been yet" : "were"} cast on this proposal.
       </div>
     );

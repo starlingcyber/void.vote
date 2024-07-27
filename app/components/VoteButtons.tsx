@@ -34,31 +34,50 @@ export default function VoteButtons({
           if (isLoading) return null;
           if (error) console.log("Error loading voting power", error);
 
-          if (votingPower === undefined || votingPower == 0) {
-            return (
+          if (votingPower === undefined) {
+            return null;
+          }
+
+          const Closed = () =>
+            !active ? (
+              <div className="w-full px-3 py-3 bg-gray-700 text-center font-bold rounded-lg text-gray-300 text-xl">
+                Voting for Proposal #{proposalId.toString()} is closed.
+              </div>
+            ) : null;
+
+          const NoPower = () =>
+            votingPower == 0 ? (
               <div className="w-full px-3 py-3 bg-gray-700 rounded-lg text-gray-400 text-xl">
                 You {active ? "are not" : "were not"} eligible to vote on this
-                proposal because you were not staking when it was created. In
-                order to vote on future proposals, you must stake before they
-                are created.
+                proposal because you were not staking when it was created. If
+                you want to vote on future proposals, stake before they are
+                created.
               </div>
-            );
-          } else {
-            return (
+            ) : null;
+
+          const Buttons = () =>
+            active ? (
               <div className="flex space-x-4 p-2">
                 <VoteButton proposalId={proposalId} vote="YES" />
                 <VoteButton proposalId={proposalId} vote="NO" />
                 <VoteButton proposalId={proposalId} vote="ABSTAIN" />
               </div>
-            );
-          }
+            ) : null;
+
+          return (
+            <>
+              <Closed />
+              <NoPower />
+              <Buttons />
+            </>
+          );
         };
 
         const VotingPowerContent = () => {
           return (
             <div className="text-xl text-center font-semibold py-3">
               <span className="text-orange-400">
-                Your Voting Power for Proposal #{proposalId.toString()}:
+                Your voting power for Proposal #{proposalId.toString()}:
               </span>
               &nbsp;
               <VotingPower proposalId={proposalId} />

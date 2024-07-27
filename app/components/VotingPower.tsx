@@ -14,6 +14,10 @@ export default function VotingPower({ proposalId }: { proposalId: bigint }) {
           const { data, error, isLoading } = useVotingPower.default(proposalId);
           const powers = data as AccountVotingPower[];
 
+          if (powers === undefined) {
+            return null;
+          }
+
           if (isLoading) {
             return null;
           }

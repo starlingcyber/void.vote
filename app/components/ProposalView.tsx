@@ -52,7 +52,10 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
   const serializedPayload = serializeBigInt(proposal.payload);
   const stateClass = getProposalStateClass(proposal.state);
   const stateText = getProposalStateText(proposal.state);
-  const active: boolean = proposal.state.voting || false;
+  let active = false;
+  if (proposal.state.voting) {
+    active = true;
+  }
 
   useEffect(() => {
     import("@microlink/react-json-view").then((module) => {
