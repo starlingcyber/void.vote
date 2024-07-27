@@ -18,7 +18,7 @@ const Header: React.FC = () => {
         <span className="text-teal-600 mb-2 sm:mb-0">brought to you by</span>
         <span className="sm:ml-3">
           <a
-            className="text-amber-400 hover:text-amber-300"
+            className="text-amber-400 hover:text-amber-300 hover:underline"
             href="https://starlingcyber.net"
             target="_blank"
             rel="noopener noreferrer"
