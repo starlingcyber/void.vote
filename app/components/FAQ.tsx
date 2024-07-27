@@ -35,11 +35,11 @@ export default function FAQ({ faqItems }: FAQProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 sm:p-0"
       onClick={onClose}
     >
       <div
-        className="bg-gray-800 rounded-lg border-2 border-teal-400 shadow-lg w-full max-w-6xl relative flex flex-col max-h-[90vh]"
+        className="bg-gray-800 rounded-lg border-2 border-teal-400 shadow-lg w-full h-full sm:h-auto sm:max-w-6xl relative flex flex-col sm:max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header and close button (fixed) */}
