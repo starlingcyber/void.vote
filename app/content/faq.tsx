@@ -99,21 +99,32 @@ export const faqItems = [
         difference:
         <ul className="my-3 ml-8 list-disc list-outside space-y-2">
           <li>
-            Delegator votes are private. Nobody can see how you vote, not even
-            the validator with whom you stake your tokens.
+            <b>All votes are final once cast.</b> This applies to validators as
+            well as delegators.
           </li>
           <li>
-            All votes are final once cast. This applies to validators as well as
-            delegators.
+            <b>
+              The only possible votes are <i>YES</i>, <i>NO</i>, and{" "}
+              <i>ABSTAIN</i>.
+            </b>{" "}
+            Unlike in some other governance systems, there is no separate option
+            for "no with veto".
           </li>
           <li>
-            The only possible votes are YES, NO, and ABSTAIN ("no with veto" is
-            not an option).
+            <b>
+              If a proposal receives over a critical threshold of NO votes, it
+              is <i>slashed</i>.
+            </b>{" "}
+            This means that the initial deposit of the proposer is burned, a
+            measure to deter spam proposals.
           </li>
           <li>
-            If a proposal receives over a critical threshold of NO votes, it is
-            considered "slashed", and the initial deposit of the proposer is
-            burned. This is done to deter spam proposals.
+            <b>Delegator votes are private.</b> Nobody can see how you vote as a
+            delegator, not even the validator with whom you stake your tokens.
+          </li>
+          <li>
+            <b>Validator votes are public.</b> Each validator's voting history
+            is a matter of public record.
           </li>
         </ul>
       </>
