@@ -25,7 +25,7 @@ export default function AccountSelectionModal({
       onClick={onClose}
     >
       <div
-        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-2xl relative"
+        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-700 shadow-lg w-full max-w-2xl relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -63,7 +63,7 @@ export default function AccountSelectionModal({
           <button
             key={account.accountId}
             onClick={() => onSelectAccount(account.accountId)}
-            className="w-full text-left p-4 hover:bg-gray-700 rounded mb-2 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 border-2 border-slate-600"
+            className="w-full text-left p-4 hover:bg-gray-700 rounded mb-2 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 border-2 border-slate-600 hover:border-teal-600"
           >
             <span className="text-xl text-teal-400 font-semibold">
               Account #{account.accountId}

@@ -39,7 +39,7 @@ export default function FAQ({ faqItems }: FAQProps) {
       onClick={onClose}
     >
       <div
-        className="bg-gray-800 rounded-lg border-2 border-teal-400 shadow-lg w-full h-full sm:h-auto sm:max-w-6xl relative flex flex-col sm:max-h-[90vh]"
+        className="bg-gray-800 rounded-lg border-2 border-teal-700 shadow-lg w-full h-full sm:h-auto sm:max-w-6xl relative flex flex-col sm:max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header and close button (fixed) */}

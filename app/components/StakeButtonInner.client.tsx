@@ -164,7 +164,7 @@ const StakeModal = ({
       onClick={onClose}
     >
       <div
-        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-400 shadow-lg w-full max-w-3xl relative"
+        className="bg-gray-800 rounded-lg p-8 border-2 border-teal-700 shadow-lg w-full max-w-3xl relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -194,7 +194,7 @@ const StakeModal = ({
           <a
             href="https://starlingcyber.net"
             target="_blank"
-            className="underline text-amber-400 hover:text-amber-300"
+            className="hover:underline text-amber-400 hover:text-amber-300"
           >
             Starling Cybernetics
           </a>

@@ -56,7 +56,7 @@ export default function VoteButtons({
             ) : null;
 
           const Buttons = () =>
-            active ? (
+            active && votingPower != 0 ? (
               <div className="flex space-x-4 p-2">
                 <VoteButton proposalId={proposalId} vote="YES" />
                 <VoteButton proposalId={proposalId} vote="NO" />
