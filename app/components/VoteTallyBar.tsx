@@ -23,7 +23,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
   const noPercentage = total === 0 ? 0 : (no * 100) / total;
   const abstainPercentage = total === 0 ? 0 : (abstain * 100) / total;
 
-  const formatVotes = (votes: number) => (votes / 1_000_000).toFixed(6);
+  const formatVotes = (votes: number) => (votes / 1_000_000).toLocaleString();
   const formatPercentage = (percentage: number) => percentage.toFixed(2);
 
   if (total == 0) {
