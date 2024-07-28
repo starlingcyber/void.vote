@@ -12,11 +12,15 @@ export default function VoteButtons({
   return (
     <PraxOnly
       fallback={
-        <p className="text-xl text-center text-gray-400 p-1 ml-2">
-          {active
-            ? "Connect wallet to vote on this proposal."
-            : "Voting for this proposal is closed."}
-        </p>
+        active ? (
+          <p className="text-xl text-center text-gray-400 p-3">
+            Connect your wallet to vote on this proposal.
+          </p>
+        ) : (
+          <div className="w-full px-3 py-3 bg-gray-700 text-center font-bold rounded-lg text-gray-300 text-xl">
+            Voting for Proposal #{proposalId.toString()} is closed.
+          </div>
+        )
       }
       imports={{
         useVotingPower: () => import("~/hooks.client/useVotingPower"),
@@ -76,9 +80,7 @@ export default function VoteButtons({
         const VotingPowerContent = () => {
           return (
             <div className="text-xl text-center font-semibold py-3">
-              <span className="text-orange-400">
-                Your voting power for Proposal #{proposalId.toString()}:
-              </span>
+              <span className="text-orange-400">Your voting power:</span>
               &nbsp;
               <VotingPower proposalId={proposalId} />
             </div>

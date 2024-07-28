@@ -4,6 +4,7 @@ import rehypeSanitize from "rehype-sanitize";
 import type { Proposal } from "~/types/Proposal";
 import VoteButtons from "./VoteButtons";
 import VoteTallyBar from "./VoteTallyBar";
+import VotingReceipts from "./VotingReceipts";
 
 const serializeBigInt = (obj: any): any => {
   if (typeof obj === "bigint") {
@@ -70,7 +71,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
       <div className="p-6">
         <h2 className="text-3xl mb-4 font-bold">
           <span className="text-orange-400">
-            Proposal #{proposal.proposal_id}:
+            Proposal #{proposal.proposal_id.toString()}:
           </span>{" "}
           <span className="text-teal-400">{proposal.title}</span>
         </h2>
@@ -84,6 +85,29 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
         </div>
 
         <br />
+
+        {proposal.withdrawn && (
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold mb-2 text-yellow-300">
+              Update: Proposal Withdrawn by Proposer
+            </h3>
+            <div className="bg-yellow-900 rounded-lg p-4 text-lg">
+              <p>
+                <span className="font-bold text-yellow-200">
+                  Reason for Withdrawal:
+                </span>{" "}
+                {proposal.withdrawal_reason}
+              </p>
+              <br />
+              <p className="text-gray-200">
+                <b className="text-yellow-200">Editor's Note:</b> A proposal
+                withdrawn before voting closes cannot possibly pass. However, it
+                can still be <i>slashed</i>, if the overwhelming majority of
+                votes are NO.
+              </p>
+            </div>
+          </div>
+        )}
 
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-2 text-gray-300">
@@ -121,7 +145,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
               </p>
               <p>
                 <span className="font-semibold text-orange-400">Deposit:</span>{" "}
-                {proposal.proposal_deposit_amount / 10 ** 6} UM
+                {Number(proposal.proposal_deposit_amount) / 10 ** 6} UM
               </p>
             </div>
           </div>
@@ -171,24 +195,22 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
           </div>
         </div>
 
-        {proposal.withdrawn && (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-2 text-red-400">
-              Proposal Withdrawn
-            </h3>
-            <div className="bg-red-900 rounded-lg p-4">
-              <p>
-                <span className="font-semibold text-red-400">Reason:</span>{" "}
-                {proposal.withdrawal_reason}
-              </p>
-            </div>
-          </div>
-        )}
-
         <div className="mt-6">
           <h3 className="text-xl font-semibold mb-2 text-gray-300">Voting</h3>
           <div className="bg-gray-700 rounded-lg pl-3 pr-3 pt-3 pb-3">
             <VoteButtons
+              active={active}
+              proposalId={BigInt(proposal.proposal_id)}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-2 text-gray-300">
+            Your Voting Receipt Tokens
+          </h3>
+          <div className="bg-gray-700 rounded-lg pl-3 pr-3 pt-3 pb-3">
+            <VotingReceipts
               active={active}
               proposalId={BigInt(proposal.proposal_id)}
             />
@@ -200,7 +222,11 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
             <h3 className="text-xl font-semibold mb-2 text-gray-300">
               Vote Tally
             </h3>
-            <VoteTallyBar active={active} {...proposal.tally} />
+            <VoteTallyBar
+              active={active}
+              proposalId={BigInt(proposal.proposal_id)}
+              {...proposal.tally}
+            />
           </div>
         )}
       </div>

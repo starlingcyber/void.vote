@@ -5,7 +5,6 @@ import {
   VoteButtonState,
 } from "./VoteButtonPresentation";
 import AccountSelectionModal from "./AccountSelectionModal";
-import { AccountVotingPower } from "../types/voting";
 
 interface VoteButtonContentProps {
   proposalId: bigint;

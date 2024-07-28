@@ -5,6 +5,7 @@ import {
 import { PromiseClient } from "@connectrpc/connect";
 import { ViewService } from "@penumbra-zone/protobuf";
 import toast from "react-hot-toast";
+import useBalances from "./useBalances";
 
 export async function submitTransaction(
   view: PromiseClient<typeof ViewService>,
@@ -40,20 +41,16 @@ export async function submitTransaction(
   });
 
   for await (const response of broadcastResponses) {
-    switch (response.status.case) {
-      case "broadcastSuccess": {
-        toast.loading(`Transaction broadcast`, {
-          id: toastId,
-        });
-        break;
-      }
-      case "confirmed": {
-        toast.success(
-          `Transaction confirmed at height ${response.status.value.detectionHeight}`,
-          { id: toastId },
-        );
-        return;
-      }
+    if (response.status.case === "broadcastSuccess") {
+      toast.loading(`Transaction broadcast`, {
+        id: toastId,
+      });
+    } else if (response.status.case === "confirmed") {
+      toast.success(
+        `Transaction confirmed at height ${response.status.value.detectionHeight}`,
+        { id: toastId },
+      );
+      return;
     }
   }
 

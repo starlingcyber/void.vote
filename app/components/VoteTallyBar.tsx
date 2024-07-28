@@ -1,10 +1,10 @@
-// ~/components/VoteTallyBar.tsx
 import React, { useState } from "react";
 
 type VoteTallyBarProps = {
-  yes: number;
-  no: number;
-  abstain: number;
+  yes: bigint;
+  no: bigint;
+  abstain: bigint;
+  proposalId: bigint;
   active: boolean;
 };
 
@@ -12,24 +12,26 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
   yes,
   no,
   abstain,
+  proposalId,
   active,
 }) => {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
-  const total = (yes + no + abstain) / 100;
+  const total = Number(yes + no + abstain) / 100;
 
   // Check if total is 0 to avoid division by zero
-  const yesPercentage = total === 0 ? 0 : (yes * 100) / total;
-  const noPercentage = total === 0 ? 0 : (no * 100) / total;
-  const abstainPercentage = total === 0 ? 0 : (abstain * 100) / total;
+  const yesPercentage = total === 0 ? 0 : (Number(yes) * 100) / total;
+  const noPercentage = total === 0 ? 0 : (Number(no) * 100) / total;
+  const abstainPercentage = total === 0 ? 0 : (Number(abstain) * 100) / total;
 
   const formatVotes = (votes: number) => (votes / 1_000_000).toLocaleString();
   const formatPercentage = (percentage: number) => percentage.toFixed(2);
 
   if (total == 0) {
     return (
-      <div className="w-full text-center py-4 font-semibold bg-gray-700 rounded-lg text-gray-400 text-xl">
-        No votes {active ? "have been yet" : "were"} cast on this proposal.
+      <div className="w-full text-center p-6 font-bold bg-gray-700 rounded-lg text-gray-300 text-xl">
+        No votes {active ? "have been yet" : "were"} cast on Proposal #
+        {proposalId.toString()}.
       </div>
     );
   }
@@ -61,8 +63,8 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
           {hoveredSection === "yes" && (
             <span className="">
               <span className="font-bold text-green-400">Yes:</span>{" "}
-              <span className="font-semibold text-slate-300">
-                {formatVotes(yes)} UM
+              <span className="font-semibold text-gray-100">
+                {formatVotes(Number(yes))} UM
               </span>{" "}
               ({formatPercentage(yesPercentage)}%)
             </span>
@@ -70,8 +72,8 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
           {hoveredSection === "no" && (
             <span className="">
               <span className="font-bold text-red-400">No:</span>{" "}
-              <span className="font-semibold text-slate-300">
-                {formatVotes(no)} UM
+              <span className="font-semibold text-gray-100">
+                {formatVotes(Number(no))} UM
               </span>{" "}
               ({formatPercentage(noPercentage)}%)
             </span>
@@ -79,8 +81,8 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
           {hoveredSection === "abstain" && (
             <span className="">
               <span className="font-bold text-slate-100">Abstain:</span>{" "}
-              <span className="font-semibold text-slate-300">
-                {formatVotes(abstain)} UM
+              <span className="font-semibold text-gray-100">
+                {formatVotes(Number(abstain))} UM
               </span>{" "}
               ({formatPercentage(abstainPercentage)}%)
             </span>
@@ -90,7 +92,9 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
       {!hoveredSection && (
         <div className="mt-2 text-center text-gray-300">
           <span className="text-orange-400 font-semibold">Total Votes:</span>{" "}
-          <span className="font-semibold">{formatVotes(total)} UM</span>
+          <span className="font-semibold text-gray-200">
+            {formatVotes(total)} UM
+          </span>
           <span className="text-slate-400">
             {" "}
             | Hover over sections for details
