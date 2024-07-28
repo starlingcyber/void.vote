@@ -7,7 +7,6 @@ import { Vote_Vote } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core
 import { VoteButtonState } from "../components/VoteButtonPresentation";
 import { submitTransaction } from "./submit";
 import { AddressIndex } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
-import useBalances from "./useBalances";
 
 async function planVote(
   view: PromiseClient<typeof ViewService>,
@@ -61,6 +60,7 @@ export const useVote = (
   proposalId: bigint,
   vote: "YES" | "NO" | "ABSTAIN",
   selectedAccount: number | null,
+  refetchBalances: () => void,
 ) => {
   const [buttonState, setButtonState] = useState<VoteButtonState>(
     VoteButtonState.IDLE,
@@ -82,6 +82,7 @@ export const useVote = (
       if (plan) {
         toast.loading("Authorizing vote transaction...", { id: toastId });
         await submitTransaction(view, plan, toastId);
+        refetchBalances();
         toast.success("Thank you for voting!", { id: toastId });
         setButtonState(VoteButtonState.IDLE);
       } else {

@@ -13,6 +13,7 @@ interface VoteButtonContentProps {
   useGovernance: any;
   useVote: any;
   useVotingPower: any;
+  useBalances: any;
 }
 
 export default function VoteButtonContent({
@@ -22,6 +23,7 @@ export default function VoteButtonContent({
   useGovernance,
   useVote,
   useVotingPower,
+  useBalances,
 }: VoteButtonContentProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
@@ -37,12 +39,14 @@ export default function VoteButtonContent({
     viewQuery.isLoading || govQuery.isLoading || isLoadingVotingPower;
   const error = viewQuery.error || govQuery.error;
 
+  const { refetch: refetchBalances } = useBalances(); // Add this line
   const { buttonState, handleVoteSubmit } = useVote(
     view,
     gov,
     proposalId,
     vote,
     selectedAccount,
+    refetchBalances,
   );
 
   const submitVote = useCallback(() => {

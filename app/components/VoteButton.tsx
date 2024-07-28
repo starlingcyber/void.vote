@@ -1,6 +1,7 @@
 import React from "react";
 import PraxOnly from "./PraxOnly";
 import VoteButtonContent from "./VoteButtonContent";
+import useBalances from "~/hooks.client/useBalances";
 
 interface VoteButtonProps {
   proposalId: bigint;
@@ -16,9 +17,10 @@ export default function VoteButton({ proposalId, vote }: VoteButtonProps) {
         useGovernance: () => import("~/hooks.client/useGovernance"),
         useVote: () => import("~/hooks.client/useVote"),
         useVotingPower: () => import("~/hooks.client/useVotingPower"),
+        useBalances: () => import("~/hooks.client/useBalances"),
       }}
     >
-      {({ useView, useGovernance, useVote, useVotingPower }) => (
+      {({ useView, useGovernance, useVote, useVotingPower, useBalances }) => (
         <VoteButtonContent
           proposalId={proposalId}
           vote={vote}
@@ -26,6 +28,7 @@ export default function VoteButton({ proposalId, vote }: VoteButtonProps) {
           useGovernance={useGovernance.default}
           useVote={useVote.useVote}
           useVotingPower={useVotingPower.default}
+          useBalances={useBalances.default}
         />
       )}
     </PraxOnly>
