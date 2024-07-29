@@ -22,6 +22,7 @@
     "@remix-run/react": "^2.10.3",
     "@remix-run/serve": "^2.10.3",
     "@tanstack/react-query": "^5.51.11",
+    "bignumber.js": "^9.1.2",
     "dompurify": "^3.1.6",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.3.18",

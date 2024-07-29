@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BigNumber from "bignumber.js";
 
 type VoteTallyBarProps = {
   yes: bigint;
@@ -17,17 +18,28 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
 }) => {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
-  const total = Number(yes) + Number(no) + Number(abstain);
+  const yesNum = new BigNumber(yes.toString());
+  const noNum = new BigNumber(no.toString());
+  const abstainNum = new BigNumber(abstain.toString());
+
+  const total = yesNum.plus(noNum).plus(abstainNum);
 
   // Check if total is 0 to avoid division by zero
-  const yesPercentage = total === 0 ? 0 : (Number(yes) / total) * 100;
-  const noPercentage = total === 0 ? 0 : (Number(no) / total) * 100;
-  const abstainPercentage = total === 0 ? 0 : (Number(abstain) / total) * 100;
+  const yesPercentage = total.isZero()
+    ? new BigNumber(0)
+    : yesNum.dividedBy(total).times(100);
+  const noPercentage = total.isZero()
+    ? new BigNumber(0)
+    : noNum.dividedBy(total).times(100);
+  const abstainPercentage = total.isZero()
+    ? new BigNumber(0)
+    : abstainNum.dividedBy(total).times(100);
 
-  const formatVotes = (votes: number) => (votes / 1_000_000).toLocaleString();
-  const formatPercentage = (percentage: number) => percentage.toFixed(2);
+  const formatVotes = (votes: BigNumber) =>
+    votes.dividedBy(1_000_000).toFormat(0);
+  const formatPercentage = (percentage: BigNumber) => percentage.toFixed(2);
 
-  if (total == 0) {
+  if (total.isZero()) {
     return (
       <div className="w-full text-center p-6 font-bold bg-gray-700 rounded-lg text-gray-300 text-xl">
         No votes {active ? "have been yet" : "were"} cast on Proposal #
@@ -41,19 +53,19 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
       <div className="relative h-8 flex rounded-full overflow-hidden cursor-help">
         <div
           className="bg-green-500 h-full"
-          style={{ width: `${yesPercentage}%` }}
+          style={{ width: `${yesPercentage.toNumber()}%` }}
           onMouseEnter={() => setHoveredSection("yes")}
           onMouseLeave={() => setHoveredSection(null)}
         ></div>
         <div
           className="bg-red-500 h-full"
-          style={{ width: `${noPercentage}%` }}
+          style={{ width: `${noPercentage.toNumber()}%` }}
           onMouseEnter={() => setHoveredSection("no")}
           onMouseLeave={() => setHoveredSection(null)}
         ></div>
         <div
           className="bg-slate-500 h-full"
-          style={{ width: `${abstainPercentage}%` }}
+          style={{ width: `${abstainPercentage.toNumber()}%` }}
           onMouseEnter={() => setHoveredSection("abstain")}
           onMouseLeave={() => setHoveredSection(null)}
         ></div>
@@ -64,7 +76,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
             <span className="">
               <span className="font-bold text-green-400">Yes:</span>{" "}
               <span className="font-semibold text-gray-100">
-                {formatVotes(Number(yes))} UM
+                {formatVotes(yesNum)} UM
               </span>{" "}
               ({formatPercentage(yesPercentage)}%)
             </span>
@@ -73,7 +85,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
             <span className="">
               <span className="font-bold text-red-400">No:</span>{" "}
               <span className="font-semibold text-gray-100">
-                {formatVotes(Number(no))} UM
+                {formatVotes(noNum)} UM
               </span>{" "}
               ({formatPercentage(noPercentage)}%)
             </span>
@@ -82,7 +94,7 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
             <span className="">
               <span className="font-bold text-slate-100">Abstain:</span>{" "}
               <span className="font-semibold text-gray-100">
-                {formatVotes(Number(abstain))} UM
+                {formatVotes(abstainNum)} UM
               </span>{" "}
               ({formatPercentage(abstainPercentage)}%)
             </span>
