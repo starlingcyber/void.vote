@@ -22,7 +22,7 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
 
   const proposalsWithTally = await Promise.all(
     proposals.map(async (proposal) => {
-      const tally = await tallyVotes(proposal.proposal_id);
+      const tally = await tallyVotes(Number(proposal.proposal_id));
       return { ...proposal, tally };
     }),
   );
