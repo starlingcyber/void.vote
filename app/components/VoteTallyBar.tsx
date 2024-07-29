@@ -17,12 +17,12 @@ const VoteTallyBar: React.FC<VoteTallyBarProps> = ({
 }) => {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
-  const total = Number(yes + no + abstain) / 100;
+  const total = Number(yes) + Number(no) + Number(abstain);
 
   // Check if total is 0 to avoid division by zero
-  const yesPercentage = total === 0 ? 0 : (Number(yes) * 100) / total;
-  const noPercentage = total === 0 ? 0 : (Number(no) * 100) / total;
-  const abstainPercentage = total === 0 ? 0 : (Number(abstain) * 100) / total;
+  const yesPercentage = total === 0 ? 0 : (Number(yes) / total) * 100;
+  const noPercentage = total === 0 ? 0 : (Number(no) / total) * 100;
+  const abstainPercentage = total === 0 ? 0 : (Number(abstain) / total) * 100;
 
   const formatVotes = (votes: number) => (votes / 1_000_000).toLocaleString();
   const formatPercentage = (percentage: number) => percentage.toFixed(2);
