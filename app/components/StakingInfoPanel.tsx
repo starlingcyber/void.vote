@@ -24,13 +24,6 @@ const StakingInfoPanel: React.FC = () => {
           proposal is submitted.
         </p>
         <p>
-          <b className="text-orange-400">
-            When you stake, you can earn rewards.
-          </b>{" "}
-          Staking rewards on Penumbra come in the form of appreciation to the
-          value of your staked $UM.
-        </p>
-        <p>
           <b className="text-orange-400"></b>
         </p>
       </div>
