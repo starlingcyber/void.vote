@@ -23,9 +23,6 @@ const StakingInfoPanel: React.FC = () => {
           Your voting power is equal to the value of your stake at the time a
           proposal is submitted.
         </p>
-        <p>
-          <b className="text-orange-400"></b>
-        </p>
       </div>
       <div className="flex items-center space-x-6">
         <StakeButton validatorAddress={VALIDATOR_ADDRESS}>
