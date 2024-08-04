@@ -5,16 +5,44 @@ import type { Proposal } from "~/types/Proposal";
 import VoteButtons from "./VoteButtons";
 import VoteTallyBar from "./VoteTallyBar";
 import VotingReceipts from "./VotingReceipts";
+import { JsonValue } from "@bufbuild/protobuf";
 
-const serializeBigInt = (obj: any): any => {
+const formatPayloadJson = (obj: any): JsonValue => {
   if (typeof obj === "bigint") {
     return obj.toString();
   } else if (Array.isArray(obj)) {
-    return obj.map(serializeBigInt);
+    return obj.map(formatPayloadJson);
   } else if (typeof obj === "object" && obj !== null) {
     return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [key, serializeBigInt(value)]),
+      Object.entries(obj).map(([key, value]) => [
+        key,
+        formatPayloadJson(value),
+      ]),
     );
+  }
+  return obj;
+};
+
+const reformatPayloadJson = (obj: JsonValue): JsonValue => {
+  if (typeof obj === "object" && obj !== null) {
+    if (!Array.isArray(obj)) {
+      if (obj["kind"] && obj["changes"]) {
+        const kind = obj["kind"];
+        if (
+          kind === "parameter_change" &&
+          obj.changes &&
+          Array.isArray(obj.changes)
+        ) {
+          obj.changes = obj.changes.map((change: any) => {
+            if (change["value"]) {
+              change.value = JSON.parse(change.value);
+            }
+            return change;
+          });
+          return obj;
+        }
+      }
+    }
   }
   return obj;
 };
@@ -50,7 +78,7 @@ const getProposalStateText = (state: any) => {
 
 export default function ProposalView({ proposal }: { proposal: Proposal }) {
   const [ReactJson, setReactJson] = useState<any>(null);
-  const serializedPayload = serializeBigInt(proposal.payload);
+  const serializedPayload = formatPayloadJson(proposal.payload);
   const stateClass = getProposalStateClass(proposal.state);
   const stateText = getProposalStateText(proposal.state);
   let active = false;
@@ -178,7 +206,7 @@ export default function ProposalView({ proposal }: { proposal: Proposal }) {
           <div className="bg-gray-700 rounded-lg p-4 overflow-x-auto">
             {ReactJson ? (
               <ReactJson
-                src={serializedPayload}
+                src={reformatPayloadJson(serializedPayload)}
                 theme="monokai"
                 collapsed={1}
                 fontFamily="Iosevka"
