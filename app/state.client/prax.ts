@@ -1,6 +1,5 @@
 import { AllSlices, SliceCreator } from ".";
 import { produce } from "immer";
-import { PenumbraSymbol } from "@penumbra-zone/client";
 import {
   CustodyService,
   PenumbraService,
@@ -9,8 +8,7 @@ import {
   StakeService,
 } from "@penumbra-zone/protobuf";
 import { PromiseClient } from "@connectrpc/connect";
-import { createPenumbraClient } from "@penumbra-zone/client/create";
-import { PRAX_ORIGIN } from "~/constants";
+import { penumbra } from '~/penumbra';
 
 // Types
 export interface PraxSlice {
@@ -41,7 +39,7 @@ const createClientGetter = <T extends PenumbraService>(
 ) => {
   return async () => {
     try {
-      return await createPenumbraClient(Service, PRAX_ORIGIN);
+      return penumbra.service(Service);
     } catch (e) {
       let errorMessage = `Failed to create ${Service.typeName} client`;
       if (e instanceof Error) {
@@ -62,7 +60,7 @@ const createClientGetter = <T extends PenumbraService>(
 // Main slice creator
 export const createPraxSlice: SliceCreator<PraxSlice> = (set, get) => ({
   // Initial state
-  connected: window[PenumbraSymbol]?.[PRAX_ORIGIN].isConnected() || false,
+  connected: Boolean(penumbra.connected),
   connectionErr: undefined,
   connectionLoading: false,
 
@@ -80,21 +78,13 @@ export const createPraxSlice: SliceCreator<PraxSlice> = (set, get) => ({
     });
 
     try {
-      // Attempt to create both clients
-      const viewClient = await get().prax.viewClient();
-      const custodyClient = await get().prax.custodyClient();
+      await penumbra.connect();
 
-      if (viewClient && custodyClient) {
-        updateState(set, {
-          connected: true,
-          connectionLoading: false,
-          connectionErr: undefined,
-        });
-      } else {
-        throw new Error(
-          "Failed to establish connection: one or both clients not created",
-        );
-      }
+      updateState(set, {
+        connected: true,
+        connectionLoading: false,
+        connectionErr: undefined,
+      });
     } catch (error) {
       let errorMessage = "Connection failed";
       if (error instanceof Error) {
@@ -113,8 +103,7 @@ export const createPraxSlice: SliceCreator<PraxSlice> = (set, get) => ({
 
   // Method to check current connection status
   checkConnectionStatus: () => {
-    const isConnected =
-      window[PenumbraSymbol]?.[PRAX_ORIGIN].isConnected() || false;
+    const isConnected = Boolean(penumbra.connected);
     updateState(set, {
       connected: isConnected,
       connectionErr: isConnected ? undefined : get().prax.connectionErr,
