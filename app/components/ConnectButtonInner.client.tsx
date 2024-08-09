@@ -2,9 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useStore } from "~/state.client";
 import toast from "react-hot-toast";
 import { refreshPageForReconnect } from "../util";
-import { PenumbraSymbol } from "@penumbra-zone/client";
-import { PRAX_CHROME_STORE_URL, PRAX_ORIGIN } from "~/constants";
+import { PRAX_CHROME_STORE_URL } from "~/constants";
 import { CONNECT_BUTTON_BASE_CLASS } from "~/styles/sharedStyles";
+import { penumbra } from '~/penumbra';
 
 enum ButtonState {
   NotHydrated,
@@ -16,7 +16,7 @@ enum ButtonState {
 }
 
 export const isPraxInstalled = (): boolean => {
-  return !!window[PenumbraSymbol]?.[PRAX_ORIGIN];
+  return typeof penumbra.state !== 'undefined';
 };
 
 const getButtonText = (state: ButtonState, isHovering: boolean): string => {
@@ -134,10 +134,7 @@ export default function ConnectButton() {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
-      toast.error(`${errorMessage}: try unlocking wallet?`, {
-        duration: 5000,
-        id: "connect",
-      });
+      toast.error(`${errorMessage}: try unlocking wallet?`);
     } finally {
       toast.dismiss("connect");
     }
@@ -145,16 +142,9 @@ export default function ConnectButton() {
 
   const handleDisconnect = useCallback(async () => {
     try {
-      const provider = window[PenumbraSymbol]?.[PRAX_ORIGIN];
-
-      if (provider && provider.disconnect) {
-        await provider.disconnect();
-        toast.success("Wallet disconnected successfully");
-        // Trigger a full page refresh after disconnection
-        window.location.reload();
-      } else {
-        throw new Error("Disconnect method not available");
-      }
+      await penumbra.disconnect();
+      toast.success("Wallet disconnected successfully");
+      setButtonState(ButtonState.Disconnected);
     } catch (error) {
       console.error("Failed to disconnect wallet:", error);
       toast.error("Failed to disconnect wallet. Please try again.");
