@@ -5,7 +5,6 @@ import {
 import { PromiseClient } from "@connectrpc/connect";
 import { ViewService } from "@penumbra-zone/protobuf";
 import toast from "react-hot-toast";
-import useBalances from "./useBalances";
 
 export async function submitTransaction(
   view: PromiseClient<typeof ViewService>,
