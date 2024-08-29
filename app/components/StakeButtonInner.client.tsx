@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { toast } from "react-hot-toast";
-import { BalancesResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb";
+import { BalancesResponse } from "@penumbra-zone/protobuf/penumbra/view/v1/view_pb";
 import useStake from "~/hooks.client/useStake";
 import useBalances from "~/hooks.client/useBalances";
 import StakeButtonPresentation from "./StakeButtonPresentation";

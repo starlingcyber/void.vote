@@ -1,13 +1,13 @@
 import PraxOnly from "~/components/PraxOnly";
-import { BalancesResponse } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/view/v1/view_pb";
+import { BalancesResponse } from "@penumbra-zone/protobuf/penumbra/view/v1/view_pb";
 import {
   AddressView,
   AddressView_Decoded,
-} from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
+} from "@penumbra-zone/protobuf/penumbra/core/keys/v1/keys_pb";
 import {
   ValueView,
   ValueView_KnownAssetId,
-} from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/asset/v1/asset_pb";
+} from "@penumbra-zone/protobuf/penumbra/core/asset/v1/asset_pb";
 
 function VotingReceiptsFallback({ proposalId }: { proposalId: bigint }) {
   return (

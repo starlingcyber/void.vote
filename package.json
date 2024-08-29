@@ -12,12 +12,11 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@buf/penumbra-zone_penumbra.bufbuild_es": "1.10.0-20240703080008-312294d02bf9.1",
     "@bufbuild/protobuf": "^1.10.0",
     "@connectrpc/connect": "^1.4.0",
     "@microlink/react-json-view": "^1.23.1",
-    "@penumbra-zone/client": "^12.0.0",
-    "@penumbra-zone/protobuf": "^5.5.0",
+    "@penumbra-zone/client": "^18.0.1",
+    "@penumbra-zone/protobuf": "^6.0.0",
     "@remix-run/node": "^2.10.3",
     "@remix-run/react": "^2.10.3",
     "@remix-run/serve": "^2.10.3",

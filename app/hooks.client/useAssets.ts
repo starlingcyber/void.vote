@@ -3,7 +3,7 @@ import { AllSlices, useStore } from "~/state.client";
 import {
   Metadata,
   AssetId,
-} from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/asset/v1/asset_pb";
+} from "@penumbra-zone/protobuf/penumbra/core/asset/v1/asset_pb";
 
 export default function useAssets() {
   const { viewClient, connected } = useStore((state: AllSlices) => state.prax);
