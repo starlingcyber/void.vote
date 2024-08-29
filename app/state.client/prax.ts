@@ -9,8 +9,10 @@ import {
   StakeService,
 } from "@penumbra-zone/protobuf";
 import { PromiseClient } from "@connectrpc/connect";
-import { createPenumbraClient } from "@penumbra-zone/client/create";
+import { createPenumbraClient } from "@penumbra-zone/client";
 import { PRAX_ORIGIN } from "~/constants";
+
+const penumbraClient = createPenumbraClient(PRAX_ORIGIN);
 
 // Types
 export interface PraxSlice {
@@ -41,7 +43,7 @@ const createClientGetter = <T extends PenumbraService>(
 ) => {
   return async () => {
     try {
-      return await createPenumbraClient(Service, PRAX_ORIGIN);
+      return await penumbraClient.service(Service);
     } catch (e) {
       let errorMessage = `Failed to create ${Service.typeName} client`;
       if (e instanceof Error) {
@@ -62,7 +64,7 @@ const createClientGetter = <T extends PenumbraService>(
 // Main slice creator
 export const createPraxSlice: SliceCreator<PraxSlice> = (set, get) => ({
   // Initial state
-  connected: window[PenumbraSymbol]?.[PRAX_ORIGIN].isConnected() || false,
+  connected: Boolean(penumbraClient.connected),
   connectionErr: undefined,
   connectionLoading: false,
 
@@ -81,10 +83,9 @@ export const createPraxSlice: SliceCreator<PraxSlice> = (set, get) => ({
 
     try {
       // Attempt to create both clients
-      const viewClient = await get().prax.viewClient();
-      const custodyClient = await get().prax.custodyClient();
+      await penumbraClient.connect();
 
-      if (viewClient && custodyClient) {
+      if (penumbraClient.connected) {
         updateState(set, {
           connected: true,
           connectionLoading: false,
