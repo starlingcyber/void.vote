@@ -2,13 +2,13 @@ import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { PromiseClient } from "@connectrpc/connect";
 import { StakeService, ViewService } from "@penumbra-zone/protobuf";
-import { FeeTier_Tier } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/component/fee/v1/fee_pb";
+import { FeeTier_Tier } from "@penumbra-zone/protobuf/penumbra/core/component/fee/v1/fee_pb";
 import { submitTransaction } from "./submit";
 import { AllSlices, useStore } from "~/state.client";
 import {
   AddressIndex,
   IdentityKey,
-} from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
+} from "@penumbra-zone/protobuf/penumbra/core/keys/v1/keys_pb";
 
 export enum StakeButtonState {
   IDLE = "IDLE",

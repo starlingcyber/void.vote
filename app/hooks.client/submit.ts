@@ -1,7 +1,7 @@
 import {
   Transaction,
   TransactionPlan,
-} from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/transaction/v1/transaction_pb";
+} from "@penumbra-zone/protobuf/penumbra/core/transaction/v1/transaction_pb";
 import { PromiseClient } from "@connectrpc/connect";
 import { ViewService } from "@penumbra-zone/protobuf";
 import toast from "react-hot-toast";

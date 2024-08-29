@@ -2,11 +2,11 @@ import { useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { PromiseClient } from "@connectrpc/connect";
 import { GovernanceService, ViewService } from "@penumbra-zone/protobuf";
-import { FeeTier_Tier } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/component/fee/v1/fee_pb";
-import { Vote_Vote } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/component/governance/v1/governance_pb";
+import { FeeTier_Tier } from "@penumbra-zone/protobuf/penumbra/core/component/fee/v1/fee_pb";
+import { Vote_Vote } from "@penumbra-zone/protobuf/penumbra/core/component/governance/v1/governance_pb";
 import { VoteButtonState } from "../components/VoteButtonPresentation";
 import { submitTransaction } from "./submit";
-import { AddressIndex } from "@buf/penumbra-zone_penumbra.bufbuild_es/penumbra/core/keys/v1/keys_pb";
+import { AddressIndex } from "@penumbra-zone/protobuf/penumbra/core/keys/v1/keys_pb";
 
 async function planVote(
   view: PromiseClient<typeof ViewService>,
